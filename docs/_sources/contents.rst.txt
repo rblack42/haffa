@@ -1,6 +1,6 @@
 ..  _contents:
 
-|pylit| documentation contents
+HAFFA documentation contents
 
 ..  toctree::
     :maxdepth: 2
