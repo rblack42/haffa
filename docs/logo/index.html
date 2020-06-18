@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>SVG Club Logo &#8212; HAFFA 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bibliography" href="../zbibliography.html" />
+    <link rel="prev" title="Indices and tables" href="../contents.html" />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script>
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head><body>
+<div class="pageheader">
+  <ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../usage/installation.html">Get it</a></li>
+    <li><a href="../contents.html">Docs</a></li>
+    <li><a href="../develop.html">Extend/Develop</a></li>
+  </ul>
+  <div>
+    <a href="../index.html">
+      <img src="../_static/logo.png" alt="PyLiT" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../zbibliography.html" title="Bibliography"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../contents.html" title="Indices and tables"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PyLiT home</a>&#160;|</li>
+        <li><a href="../contents.html">Documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">SVG Club Logo</a></li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../contents.html">
+              <img class="logo" src="../_static/pylit.svg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">SVG Club Logo</a><ul>
+<li><a class="reference internal" href="#logo-composition">Logo Composition</a></li>
+<li><a class="reference internal" href="#flag-geometry">Flag Geometry</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../contents.html"
+                        title="previous chapter">Indices and tables</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../zbibliography.html"
+                        title="next chapter">Bibliography</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/logo/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p>Read time: 1.9 minutes (191 words)</p>
+<div class="section" id="svg-club-logo">
+<h1>SVG Club Logo<a class="headerlink" href="#svg-club-logo" title="Permalink to this headline">¶</a></h1>
+<p>When I first joined the club, their logo was found only in an image file. The
+original artist created the logo manually, then scanned it for club use. The
+original is no longer available.</p>
+<p>I decided that we needed a more permanent logo, one that could be scaled for a
+variety of purposes. I also decided that we needed a badge we could use on
+model airplanes, or club membership cards.</p>
+<p>The solution was to take the image file and see if I could turn it into a pure
+SVG file. This note details the process I went through to come up with the new
+logo.</p>
+<div class="section" id="logo-composition">
+<h2>Logo Composition<a class="headerlink" href="#logo-composition" title="Permalink to this headline">¶</a></h2>
+<p>The image file had only a few basic elements:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The US Flag masked by a heart shape</p></li>
+<li><p>The heart shape path</p></li>
+<li><p>A Modeler launching an airplane</p></li>
+<li><p>The Airplane itself</p></li>
+<li><p>The name “HAFFA” styled in what looked like the Papyrus font</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="flag-geometry">
+<h2>Flag Geometry<a class="headerlink" href="#flag-geometry" title="Permalink to this headline">¶</a></h2>
+<p>The dimensions of the flag are well defined. iHere is the basic geometry from
+<a class="reference external" href="http://https://www.chamberofcommerce.org/usflag/flagspecs.html">http://https://www.chamberofcommerce.org/usflag/flagspecs.html</a>:</p>
+<img alt="../_images/specflag.gif" class="align-center" src="../_images/specflag.gif" />
+<p>Where:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>A</strong> (hoist) = 1.0</p></li>
+<li><p><strong>B</strong> (fly) = 1.9</p></li>
+<li><p><strong>C</strong> (Union hoist) = 7/13</p></li>
+<li><p><strong>D</strong> (Union fly) = 0.76</p></li>
+<li><p><strong>E</strong> = 0.054</p></li>
+<li><p><strong>F</strong> = 0.054</p></li>
+<li><p><strong>G</strong> = 0.063</p></li>
+<li><p><strong>H</strong> = 0.063</p></li>
+<li><p><strong>K</strong> diameter of star = 0.0616</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../zbibliography.html" title="Bibliography"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../contents.html" title="Indices and tables"
+             >previous</a> |</li>
+        <li><a href="../index.html">PyLiT home</a>&#160;|</li>
+        <li><a href="../contents.html">Documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">SVG Club Logo</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Roie R. Black and the Sphinx team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.1.
+    </div>
+  </body>
+</html>

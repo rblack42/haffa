@@ -4,19 +4,16 @@ import sys
 
 sys.path.insert(0, os.path.abspath('..'))
 import sphinx
-from sphinxcontrib.pylit import meta
 
 # Include todo list
 todo_include_todos = True
-pylit_include_pylits = True
-#pylit_emit_warnings = True
 
 # -- Project information -----------------------------------------------------
 
-project = 'sphinxcontrib-pylit'
+project = 'HAFFA'
 copyright = '2020, Roie R. Black'
 author = 'Roie R. Black'
-version = meta.version
+version = '0.0.1'
 
 # The full version, including alpha/beta/rc tags
 release = version
@@ -45,9 +42,8 @@ master_doc = 'contents'
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '_examples']
 
-project = 'PyLiT'
+project = 'HAFFA'
 copyright = '2020, Roie R. Black and the Sphinx team'
-version = meta.version
 release = version
 show_authors = True
 
@@ -66,7 +62,7 @@ html_logo = '_static/pylit.svg'
 
 # -- Options for LaTeX output --------------------------------------------------
 
-latex_documents = [('contents', 'pylit.tex', 'PyLiT Documentation',
+latex_documents = [('contents', 'haffa.tex', 'HAFFA Projects',
                     'Roie R. Black', 'manual', 1)]
 latex_logo = '_static/pylit.png'
 

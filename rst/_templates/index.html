@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% set title = _('Overview') %}
+{% block body %}
+  <h1>{{ _('Welcome') }}</h1>
+
+  <div class="quotebar">
+    <p><em>{%trans%}Dr. Donald Knuth:{%endtrans%}</em></p>
+    <p>{%trans%}&#8220;I believe that the time is ripe for significantly better documentation of programs, and that we can best achieve this by considering programs to be works of literature. Hence, my title: Literate Programming.&#8220;{%endtrans%}</p>
+  </div>
+
+  <p>{%trans%}
+    PyLiT is an extension to Sphinx that allows a variation of Dr. Knuth's Literate Programming concept to be included in reStructuredText documentation. The tool provides support for extracting code from the documentation and placing thta code in a git repository, complete with a pseudo history making it usable with normal git tools. PyLiT was written by Roie R. Black and licensed under the BSD license.{%endtrans%}</p>
+
+  <h2 style="margin-bottom: 0">{%trans%}Documentation{%endtrans%}</h2>
+
+  <table class="contentstable">
+    <tr>
+      <td>
+        <p class="biglink"><a class="biglink" href="{{ pathto("usage/quickstart") }}">{%trans%}Getting started{%endtrans%}</a><br/>
+           <span class="linkdescr">{%trans%}overview of basic tasks{%endtrans%}</span></p>
+      </td><td>
+        {%- if hasdoc('search') %}<p class="biglink"><a class="biglink" href="{{ pathto("search") }}">{%trans%}Search page{%endtrans%}</a><br/>
+           <span class="linkdescr">{%trans%}search the documentation{%endtrans%}</span></p>{%- endif %}
+      </td>
+    </tr><tr>
+      <td>
+        <p class="biglink"><a class="biglink" href="{{ pathto("contents") }}">{%trans%}Contents{%endtrans%}</a><br/>
+           <span class="linkdescr">{%trans%}for a complete overview{%endtrans%}</span></p>
+      </td><td>
+        {%- if hasdoc('genindex') %}<p class="biglink"><a class="biglink" href="{{ pathto("genindex") }}">{%trans%}General Index{%endtrans%}</a><br/>
+           <span class="linkdescr">{%trans%}all functions, classes, terms{%endtrans%}</span></p>{%- endif %}
+      </td>
+    </tr><tr>
+      <td>
+        <p class="biglink"><a class="biglink" href="{{ pathto("changes") }}">{%trans%}Changes{%endtrans%}</a><br/>
+           <span class="linkdescr">{%trans%}release history{%endtrans%}</span></p>
+      </td><td>
+      </td>
+    </tr>
+  </table>
+
+{% endblock %}
