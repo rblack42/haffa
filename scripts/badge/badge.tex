@@ -1,0 +1,40 @@
+\PassOptionsToPackage{rgb,x11names,dvipsnames,svgnames}{xcolor}
+\documentclass[tikz,border=10pt,multi]{standalone}
+\usetikzlibrary{decorations.text}
+\usepackage[T1]{fontenc}
+\usepackage{PTSerifCaption}
+\usepackage{graphicx}
+\begin{document}
+
+\begin{tikzpicture}
+  \foreach \i/\j/\k in {white/black/45mm,white/black/36mm}
+  \path [
+    inner color=\i, 
+    outer color=\j, 
+    draw=black, 
+    line width=1.5pt, 
+    double distance=.75mm, 
+    double=white
+  ] circle (\k);
+  \path [
+    fill=white, draw=black
+  ] circle (35mm);
+  \path [
+    decorate, 
+    decoration={
+      text effects along path, text={
+      HEART 
+      OF 
+      AMERICA \textbullet{}
+      FREE 
+      FLIGHT 
+      ASSOCIATION \textbullet{}
+    }, 
+    text effects/.cd, text along path, 
+    fit text to path, 
+    characters={font=\LARGE, text=white}}
+  ] (
+  160:38mm) arc (160:-195:38mm);
+  \node {\includegraphics[height=45mm] {haffa-logo}};
+  \end{tikzpicture}
+\end{document}
