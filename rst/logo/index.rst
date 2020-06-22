@@ -31,28 +31,30 @@ The image file had only a few basic elements:
 Flag Geometry
 *************
 
-The dimensions of the flag are well defined. iHere is the basic geometry from
+The dimensions of the flag are well defined. Here is the basic geometry from
 http://https://www.chamberofcommerce.org/usflag/flagspecs.html:
 
 ..  image:: specflag.gif
     :align: center
 
-Where:
+The stars are positioned at the center of a circle of the defined radius. Each
+point is located at an angle of 360/5 = 72 degrees, making the height of the
+star a bit shorter than the width. Here is another image showing the positions
+of the points that make up each star:
 
-    * **A** (hoist) = 1.0
+..  image:: star-points.gif
+    :align: center.
 
-    * **B** (fly) = 1.9
+With these two figures, we can build a basic flag file using fairly simple SVG
+commands.
 
-    * **C** (Union hoist) = 7/13
+Logo Canvas
+***********
 
-    * **D** (Union fly) = 0.76
+Our basic canvas will be a standard US Letter paper. We will build the logo and the badge so they can be printed out on any inkjet printer.
 
-    * **E** = 0.054
+SVG traditionally uses pixels as a basic unit of measure. However, pixels vary in size as you switch to different devices. We will use the inch as a basic measurement. Remember, SVG is a vector format, meaning we can scale the final image to suit our needs.
 
-    * **F** = 0.054
 
-    * **G** = 0.063
 
-    * **H** = 0.063
 
-    * **K** diameter of star = 0.0616

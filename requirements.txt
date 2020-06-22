@@ -3,4 +3,6 @@ sphinx-rtd-theme
 sphinxcontrib-bibtex
 sphinxcontrib-tikz
 nbsphinx
-
+jupyter
+svgwrite
+drawSvg
