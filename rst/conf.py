@@ -22,6 +22,7 @@ release = version
 # -- General configuration ---------------------------------------------------
 
 extensions = [
+        'nbsphinx',
         'sphinx.ext.autodoc',
         'sphinx.ext.todo',
         'sphinx.ext.autosummary',

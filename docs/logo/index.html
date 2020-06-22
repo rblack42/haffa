@@ -12,9 +12,10 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Bibliography" href="../zbibliography.html" />
+    <link rel="next" title="Building the HAFFA Logo" href="haffa-logo.html" />
     <link rel="prev" title="Indices and tables" href="../contents.html" />
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
           rel='stylesheet' type='text/css' />
@@ -75,7 +76,7 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../zbibliography.html" title="Bibliography"
+          <a href="haffa-logo.html" title="Building the HAFFA Logo"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../contents.html" title="Indices and tables"
@@ -96,6 +97,7 @@
 <li><a class="reference internal" href="#">SVG Club Logo</a><ul>
 <li><a class="reference internal" href="#logo-composition">Logo Composition</a></li>
 <li><a class="reference internal" href="#flag-geometry">Flag Geometry</a></li>
+<li><a class="reference internal" href="#logo-canvas">Logo Canvas</a></li>
 </ul>
 </li>
 </ul>
@@ -104,8 +106,8 @@
   <p class="topless"><a href="../contents.html"
                         title="previous chapter">Indices and tables</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../zbibliography.html"
-                        title="next chapter">Bibliography</a></p>
+  <p class="topless"><a href="haffa-logo.html"
+                        title="next chapter">Building the HAFFA Logo</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -131,7 +133,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <p>Read time: 1.9 minutes (191 words)</p>
+  <p>Read time: 2.9 minutes (294 words)</p>
 <div class="section" id="svg-club-logo">
 <h1>SVG Club Logo<a class="headerlink" href="#svg-club-logo" title="Permalink to this headline">¶</a></h1>
 <p>When I first joined the club, their logo was found only in an image file. The
@@ -158,23 +160,21 @@ logo.</p>
 </div>
 <div class="section" id="flag-geometry">
 <h2>Flag Geometry<a class="headerlink" href="#flag-geometry" title="Permalink to this headline">¶</a></h2>
-<p>The dimensions of the flag are well defined. iHere is the basic geometry from
+<p>The dimensions of the flag are well defined. Here is the basic geometry from
 <a class="reference external" href="http://https://www.chamberofcommerce.org/usflag/flagspecs.html">http://https://www.chamberofcommerce.org/usflag/flagspecs.html</a>:</p>
 <img alt="../_images/specflag.gif" class="align-center" src="../_images/specflag.gif" />
-<p>Where:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><strong>A</strong> (hoist) = 1.0</p></li>
-<li><p><strong>B</strong> (fly) = 1.9</p></li>
-<li><p><strong>C</strong> (Union hoist) = 7/13</p></li>
-<li><p><strong>D</strong> (Union fly) = 0.76</p></li>
-<li><p><strong>E</strong> = 0.054</p></li>
-<li><p><strong>F</strong> = 0.054</p></li>
-<li><p><strong>G</strong> = 0.063</p></li>
-<li><p><strong>H</strong> = 0.063</p></li>
-<li><p><strong>K</strong> diameter of star = 0.0616</p></li>
-</ul>
-</div></blockquote>
+<p>The stars are positioned at the center of a circle of the defined radius. Each
+point is located at an angle of 360/5 = 72 degrees, making the height of the
+star a bit shorter than the width. Here is another image showing the positions
+of the points that make up each star:</p>
+<img alt="../_images/star-points.gif" class="align-center" src="../_images/star-points.gif" />
+<p>With these two figures, we can build a basic flag file using fairly simple SVG
+commands.</p>
+</div>
+<div class="section" id="logo-canvas">
+<h2>Logo Canvas<a class="headerlink" href="#logo-canvas" title="Permalink to this headline">¶</a></h2>
+<p>Our basic canvas will be a standard US Letter paper. We will build the logo and the badge so they can be printed out on any inkjet printer.</p>
+<p>SVG traditionally uses pixels as a basic unit of measure. However, pixels vary in size as you switch to different devices. We will use the inch as a basic measurement. Remember, SVG is a vector format, meaning we can scale the final image to suit our needs.</p>
 </div>
 </div>
 
@@ -192,7 +192,7 @@ logo.</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../zbibliography.html" title="Bibliography"
+          <a href="haffa-logo.html" title="Building the HAFFA Logo"
              >next</a> |</li>
         <li class="right" >
           <a href="../contents.html" title="Indices and tables"

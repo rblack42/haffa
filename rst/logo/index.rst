@@ -43,7 +43,7 @@ star a bit shorter than the width. Here is another image showing the positions
 of the points that make up each star:
 
 ..  image:: star-points.gif
-    :align: center.
+    :align: center
 
 With these two figures, we can build a basic flag file using fairly simple SVG
 commands.
