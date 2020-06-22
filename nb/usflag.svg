@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="1235" height="650"
+    viewBox="0 0 7410 3900">
+
+  <!-- draw a red background -->
+  <rect width="7410" height="3900" fill="#b22234"/>
+
+  <!-- draw six white stripes, 300 pixels wide -->
+  <path d="
+    M0,450
+    H7410
+    m0,600
+    H0
+    m0,600
+    H7410
+    m0,600
+    H0
+    m0,600
+    H7410
+    m0,600
+    H0"
+    stroke="#fff"
+    stroke-width="300"/>
+  <!-- draw the blue star background -->
+  <rect width="2964" height="2100" fill="#3c3b6e"/>
+
+  <!-- draw the star field -->
+  <g fill="#fff">
+    <g id="s18">
+      <g id="s9">
+        <g id="s5">
+          <g id="s4">
+            <path id="star"
+              d="
+                M247,90
+                317.534230,307.082039
+                132.873218,172.917961
+                H361.126782
+                L176.465770,307.082039
+                z"/>
+            <use xlink:href="#star" y="420"/>
+            <use xlink:href="#star" y="840"/>
+            <use xlink:href="#star" y="1260"/>
+          </g>
+          <use xlink:href="#star" y="1680"/>
+        </g>
+        <use xlink:href="#s4" x="247" y="210"/>
+      </g>
+      <use xlink:href="#s9" x="494"/>
+    </g>
+    <use xlink:href="#s18" x="988"/>
+    <use xlink:href="#s9" x="1976"/>
+    <use xlink:href="#s5" x="2470"/>
+  </g>
+</svg>
