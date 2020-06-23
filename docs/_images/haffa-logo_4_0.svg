@@ -1,0 +1,11 @@
+<svg height="80" width="600"><circle cx="300" cy="30" fill="red" r="0.0" stroke="black" stroke-width="2">
+        </circle><circle cx="297" cy="30" fill="red" r="3.0" stroke="black" stroke-width="2">
+        </circle><circle cx="288" cy="30" fill="red" r="6.0" stroke="black" stroke-width="2">
+        </circle><circle cx="273" cy="30" fill="red" r="9.0" stroke="black" stroke-width="2">
+        </circle><circle cx="252" cy="30" fill="red" r="12.0" stroke="black" stroke-width="2">
+        </circle><circle cx="225" cy="30" fill="red" r="15.0" stroke="black" stroke-width="2">
+        </circle><circle cx="192" cy="30" fill="red" r="18.0" stroke="black" stroke-width="2">
+        </circle><circle cx="153" cy="30" fill="red" r="21.0" stroke="black" stroke-width="2">
+        </circle><circle cx="108" cy="30" fill="red" r="24.0" stroke="black" stroke-width="2">
+        </circle><circle cx="57" cy="30" fill="red" r="27.0" stroke="black" stroke-width="2">
+        </circle></svg>

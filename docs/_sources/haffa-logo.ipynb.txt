@@ -1,0 +1,373 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "\n",
+    "# Building the HAFFA Logo"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<svg>\n",
+    "<ellipse style=\"fill:#00ff00;stroke:#000000;\" cx=\"50\" cy=\"50\" rx=\"48\" ry=\"48\">\n",
+    "<ellipse>\n",
+    "</svg>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<svg>\n",
+    "<ellipse style=\"fill:#00ff00;stroke:#000000;\" cx=\"50\" cy=\"50\" rx=\"48\" ry=\"48\">\n",
+    "<ellipse>\n",
+    "</svg>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from IPython.display import SVG, display"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/svg+xml": [
+       "<svg height=\"80\" width=\"600\"><circle cx=\"300\" cy=\"30\" fill=\"red\" r=\"0.0\" stroke=\"black\" stroke-width=\"2\">\n",
+       "        </circle><circle cx=\"297\" cy=\"30\" fill=\"red\" r=\"3.0\" stroke=\"black\" stroke-width=\"2\">\n",
+       "        </circle><circle cx=\"288\" cy=\"30\" fill=\"red\" r=\"6.0\" stroke=\"black\" stroke-width=\"2\">\n",
+       "        </circle><circle cx=\"273\" cy=\"30\" fill=\"red\" r=\"9.0\" stroke=\"black\" stroke-width=\"2\">\n",
+       "        </circle><circle cx=\"252\" cy=\"30\" fill=\"red\" r=\"12.0\" stroke=\"black\" stroke-width=\"2\">\n",
+       "        </circle><circle cx=\"225\" cy=\"30\" fill=\"red\" r=\"15.0\" stroke=\"black\" stroke-width=\"2\">\n",
+       "        </circle><circle cx=\"192\" cy=\"30\" fill=\"red\" r=\"18.0\" stroke=\"black\" stroke-width=\"2\">\n",
+       "        </circle><circle cx=\"153\" cy=\"30\" fill=\"red\" r=\"21.0\" stroke=\"black\" stroke-width=\"2\">\n",
+       "        </circle><circle cx=\"108\" cy=\"30\" fill=\"red\" r=\"24.0\" stroke=\"black\" stroke-width=\"2\">\n",
+       "        </circle><circle cx=\"57\" cy=\"30\" fill=\"red\" r=\"27.0\" stroke=\"black\" stroke-width=\"2\">\n",
+       "        </circle></svg>"
+      ],
+      "text/plain": [
+       "<IPython.core.display.SVG object>"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "SVG('''<svg width=\"600\" height=\"80\">''' +\n",
+    "    ''.join([f'''<circle\n",
+    "              cx=\"{(30 + 3*i) * (10 - i)}\"\n",
+    "              cy=\"30\"\n",
+    "              r=\"{3. * float(i)}\"\n",
+    "              fill=\"red\"\n",
+    "              stroke-width=\"2\"\n",
+    "              stroke=\"black\">\n",
+    "        </circle>''' for i in range(10)]) +\n",
+    "    '''</svg>''')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import svgwrite\n",
+    "\n",
+    "from svgwrite import cm, mm   \n",
+    "\n",
+    "\n",
+    "def basic_shapes(name):\n",
+    "    dwg = svgwrite.Drawing(filename=name, debug=True)\n",
+    "    hlines = dwg.add(dwg.g(id='hlines', stroke='green'))\n",
+    "    for y in range(20):\n",
+    "        hlines.add(dwg.line(start=(2*cm, (2+y)*cm), end=(18*cm, (2+y)*cm)))\n",
+    "    vlines = dwg.add(dwg.g(id='vline', stroke='blue'))\n",
+    "    for x in range(17):\n",
+    "        vlines.add(dwg.line(start=((2+x)*cm, 2*cm), end=((2+x)*cm, 21*cm)))\n",
+    "    shapes = dwg.add(dwg.g(id='shapes', fill='red'))\n",
+    "\n",
+    "    # set presentation attributes at object creation as SVG-Attributes\n",
+    "    circle = dwg.circle(center=(15*cm, 8*cm), r='2.5cm', stroke='blue', stroke_width=3)\n",
+    "    circle['class'] = 'class1 class2'\n",
+    "    shapes.add(circle)\n",
+    "\n",
+    "    # override the 'fill' attribute of the parent group 'shapes'\n",
+    "    shapes.add(dwg.rect(insert=(5*cm, 5*cm), size=(45*mm, 45*mm),\n",
+    "                        fill='blue', stroke='red', stroke_width=3))\n",
+    "\n",
+    "    # or set presentation attributes by helper functions of the Presentation-Mixin\n",
+    "    ellipse = shapes.add(dwg.ellipse(center=(10*cm, 15*cm), r=('5cm', '10mm')))\n",
+    "    ellipse.fill('green', opacity=0.5).stroke('black', width=5).dasharray([20, 20])\n",
+    "    dwg.save()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "basic_shapes('basic_shapes.svg')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/svg+xml": [
+       "<svg baseProfile=\"full\" height=\"100%\" version=\"1.1\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:ev=\"http://www.w3.org/2001/xml-events\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"><defs/><g id=\"hlines\" stroke=\"green\"><line x1=\"2cm\" x2=\"18cm\" y1=\"2cm\" y2=\"2cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"3cm\" y2=\"3cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"4cm\" y2=\"4cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"5cm\" y2=\"5cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"6cm\" y2=\"6cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"7cm\" y2=\"7cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"8cm\" y2=\"8cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"9cm\" y2=\"9cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"10cm\" y2=\"10cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"11cm\" y2=\"11cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"12cm\" y2=\"12cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"13cm\" y2=\"13cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"14cm\" y2=\"14cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"15cm\" y2=\"15cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"16cm\" y2=\"16cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"17cm\" y2=\"17cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"18cm\" y2=\"18cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"19cm\" y2=\"19cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"20cm\" y2=\"20cm\"/><line x1=\"2cm\" x2=\"18cm\" y1=\"21cm\" y2=\"21cm\"/></g><g id=\"vline\" stroke=\"blue\"><line x1=\"2cm\" x2=\"2cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"3cm\" x2=\"3cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"4cm\" x2=\"4cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"5cm\" x2=\"5cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"6cm\" x2=\"6cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"7cm\" x2=\"7cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"8cm\" x2=\"8cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"9cm\" x2=\"9cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"10cm\" x2=\"10cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"11cm\" x2=\"11cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"12cm\" x2=\"12cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"13cm\" x2=\"13cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"14cm\" x2=\"14cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"15cm\" x2=\"15cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"16cm\" x2=\"16cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"17cm\" x2=\"17cm\" y1=\"2cm\" y2=\"21cm\"/><line x1=\"18cm\" x2=\"18cm\" y1=\"2cm\" y2=\"21cm\"/></g><g fill=\"red\" id=\"shapes\"><circle class=\"class1 class2\" cx=\"15cm\" cy=\"8cm\" r=\"2.5cm\" stroke=\"blue\" stroke-width=\"3\"/><rect fill=\"blue\" height=\"45mm\" stroke=\"red\" stroke-width=\"3\" width=\"45mm\" x=\"5cm\" y=\"5cm\"/><ellipse cx=\"10cm\" cy=\"15cm\" fill=\"green\" fill-opacity=\"0.5\" rx=\"5cm\" ry=\"10mm\" stroke=\"black\" stroke-dasharray=\"20 20\" stroke-width=\"5\"/></g></svg>"
+      ],
+      "text/plain": [
+       "<IPython.core.display.SVG object>"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "SVG(filename=\"basic_shapes.svg\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "image/svg+xml": [
+       "<svg height=\"650\" viewBox=\"0 0 7410 3900\" width=\"1235\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n",
+       "\n",
+       "  <!-- draw a red background -->\n",
+       "  <rect fill=\"#b22234\" height=\"3900\" width=\"7410\"/>\n",
+       "\n",
+       "  <!-- draw six white stripes, 300 pixels wide -->\n",
+       "  <path d=\"     M0,450     H7410     m0,600     H0     m0,600     H7410     m0,600     H0     m0,600     H7410     m0,600     H0\" stroke=\"#fff\" stroke-width=\"300\"/>\n",
+       "  <!-- draw the blue star background -->\n",
+       "  <rect fill=\"#3c3b6e\" height=\"2100\" width=\"2964\"/>\n",
+       "\n",
+       "  <!-- draw the star field -->\n",
+       "  <g fill=\"#fff\">\n",
+       "    <g id=\"s18\">\n",
+       "      <g id=\"s9\">\n",
+       "        <g id=\"s5\">\n",
+       "          <g id=\"s4\">\n",
+       "            <path d=\"                 M247,90                 317.534230,307.082039                 132.873218,172.917961                 H361.126782                 L176.465770,307.082039                 z\" id=\"star\"/>\n",
+       "            <use xlink:href=\"#star\" y=\"420\"/>\n",
+       "            <use xlink:href=\"#star\" y=\"840\"/>\n",
+       "            <use xlink:href=\"#star\" y=\"1260\"/>\n",
+       "          </g>\n",
+       "          <use xlink:href=\"#star\" y=\"1680\"/>\n",
+       "        </g>\n",
+       "        <use x=\"247\" xlink:href=\"#s4\" y=\"210\"/>\n",
+       "      </g>\n",
+       "      <use x=\"494\" xlink:href=\"#s9\"/>\n",
+       "    </g>\n",
+       "    <use x=\"988\" xlink:href=\"#s18\"/>\n",
+       "    <use x=\"1976\" xlink:href=\"#s9\"/>\n",
+       "    <use x=\"2470\" xlink:href=\"#s5\"/>\n",
+       "  </g>\n",
+       "</svg>"
+      ],
+      "text/plain": [
+       "<IPython.core.display.SVG object>"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "SVG(filename=\"usflag.svg\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<img src=\"data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIgogICAgIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSItMTAwLjAgLTUwLjAgMjAwIDEwMCI+CjxkZWZzPgo8bWFya2VyIG1hcmtlcldpZHRoPSI0LjAiIG1hcmtlckhlaWdodD0iNC4wIiB2aWV3Qm94PSItMC4xIC0wLjUgMS4wIDEuMCIgb3JpZW50PSJhdXRvIiBpZD0iZDAiPgo8cGF0aCBkPSJNLTAuMSwwLjUgTC0wLjEsLTAuNSBMMC45LDAgWiIgZmlsbD0icmVkIiAvPgo8L21hcmtlcj4KPC9kZWZzPgo8cGF0aCBkPSJNLTgwLDQ1IEw3MCw0OSBMOTUsLTQ5IEwtOTAsLTQwIiBmaWxsPSIjZWVlZTAwIiBzdHJva2U9ImJsYWNrIiAvPgo8cmVjdCB4PSIwIiB5PSItNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1MCIgZmlsbD0iIzEyNDhmZiIgLz4KPGNpcmNsZSBjeD0iLTQwIiBjeT0iMTAiIHI9IjMwIiBmaWxsPSJyZWQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSJibGFjayIgLz4KPHBhdGggZD0iTS0zMCwtNSBsNjAsLTMwIGgtNzAgWiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9ImdyZWVuIiBmaWxsPSJibGFjayIgZmlsbC1vcGFjaXR5PSIwLjUiIC8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iMjAiIHI9IjIwIiBzdHJva2UtZGFzaGFycmF5PSI3My4zMDM4Mjg1ODM3NjE4NCA1Mi4zNTk4Nzc1NTk4Mjk4OCIgc3Ryb2tlLWRhc2hvZmZzZXQ9Ii0zMS40MTU5MjY1MzU4OTc5MyIgc3Ryb2tlPSJyZWQiIHN0cm9rZS13aWR0aD0iNSIgZmlsbD0icmVkIiBmaWxsLW9wYWNpdHk9IjAuMiIgLz4KPHBhdGggZD0iTTcwLjAsMi42Nzk0OTE5MjQzMTEyMjkgQTIwLDIwLDAsMSwwLDU5Ljk5OTk5OTk5OTk5OTk5LDQwLjAiIHN0cm9rZT0iZ3JlZW4iIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIgLz4KPHBhdGggZD0iTTU5Ljk5OTk5OTk5OTk5OTk5LDQwLjAgQTIwLDIwLDAsMSwxLDcwLjAsMi42Nzk0OTE5MjQzMTEyMjkiIHN0cm9rZT0iYmx1ZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJibGFjayIgZmlsbC1vcGFjaXR5PSIwLjMiIC8+CjxwYXRoIGQ9Ik0yMCw0MCBMMjAsMjcgTDAsMjAiIHN0cm9rZT0icmVkIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG1hcmtlci1lbmQ9InVybCgjZDApIiAvPgo8cGF0aCBkPSJNMzAsMjAgTDAsMTAiIHN0cm9rZT0icmVkIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG1hcmtlci1lbmQ9InVybCgjZDApIiAvPgo8L3N2Zz4=\">"
+      ],
+      "text/plain": [
+       "<drawSvg.drawing.Drawing at 0x107ce8150>"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import drawSvg as draw\n",
+    "\n",
+    "d = draw.Drawing(200, 100, origin='center', displayInline=False)\n",
+    "\n",
+    "# Draw an irregular polygon\n",
+    "d.append(draw.Lines(-80, -45,\n",
+    "                    70, -49,\n",
+    "                    95, 49,\n",
+    "                    -90, 40,\n",
+    "                    close=False,\n",
+    "            fill='#eeee00',\n",
+    "            stroke='black'))\n",
+    "\n",
+    "# Draw a rectangle\n",
+    "d.append(draw.Rectangle(0,0,40,50, fill='#1248ff'))\n",
+    "\n",
+    "# Draw a circle\n",
+    "d.append(draw.Circle(-40, -10, 30,\n",
+    "            fill='red', stroke_width=2, stroke='black'))\n",
+    "\n",
+    "# Draw an arbitrary path (a triangle in this case)\n",
+    "p = draw.Path(stroke_width=2, stroke='green',\n",
+    "              fill='black', fill_opacity=0.5)\n",
+    "p.M(-30,5)  # Start path at point (-30, 5)\n",
+    "p.l(60,30)  # Draw line to (60, 30)\n",
+    "p.h(-70)    # Draw horizontal line to x=-70\n",
+    "p.Z()       # Draw line to start\n",
+    "d.append(p)\n",
+    "\n",
+    "# Draw multiple circular arcs\n",
+    "d.append(draw.ArcLine(60,-20,20,60,270,\n",
+    "            stroke='red', stroke_width=5, fill='red', fill_opacity=0.2))\n",
+    "d.append(draw.Arc(60,-20,20,60,270,cw=False,\n",
+    "            stroke='green', stroke_width=3, fill='none'))\n",
+    "d.append(draw.Arc(60,-20,20,270,60,cw=True,\n",
+    "            stroke='blue', stroke_width=1, fill='black', fill_opacity=0.3))\n",
+    "\n",
+    "# Draw arrows\n",
+    "arrow = draw.Marker(-0.1, -0.5, 0.9, 0.5, scale=4, orient='auto')\n",
+    "arrow.append(draw.Lines(-0.1, -0.5, -0.1, 0.5, 0.9, 0, fill='red', close=True))\n",
+    "p = draw.Path(stroke='red', stroke_width=2, fill='none',\n",
+    "              marker_end=arrow)  # Add an arrow to the end of a path\n",
+    "p.M(20, -40)\n",
+    "p.L(20, -27)\n",
+    "p.L(0, -20)\n",
+    "d.append(p)\n",
+    "d.append(draw.Line(30, -20, 0, -10,\n",
+    "            stroke='red', stroke_width=2, fill='none',\n",
+    "            marker_end=arrow))  # Add an arrow to the end of a line\n",
+    "\n",
+    "d.setPixelScale(2)  # Set number of pixels per geometry unit\n",
+    "#d.setRenderSize(400,200)  # Alternative to setPixelScale\n",
+    "d.saveSvg('example.svg')\n",
+    "d.savePng('example.png')\n",
+    "\n",
+    "# Display in Jupyter notebook\n",
+    "d.rasterize()  # Display as PNG\n",
+    "d  # Display as SVG"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from IPython.display import display, SVG\n",
+    "\n",
+    "def show_svg(svgs, width=1000, height=1000):\n",
+    "    SVG_HEAD = '''<?xml version=\"1.0\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">'''\n",
+    "    SVG_START = '''<svg width=\"{w:}px\" height=\"{h:}px\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink= \"http://www.w3.org/1999/xlink\">'''\n",
+    "    SVG_END = '</svg>'\n",
+    "    return display(SVG(SVG_HEAD + SVG_START.format(w=width, h=height) + svgs + SVG_END))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/svg+xml": [
+       "<svg height=\"390px\" version=\"1.1\" width=\"500px\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"><image height=\"390px\" width=\"500px\" x=\"0\" xlink:href=\"static/biospace-news-biogen-idec-2.png\" y=\"0\"/><rect fill=\"rgba(0,255,255,0.350000)\" height=\"180\" stroke=\"rgb(0,0,0)\" width=\"200\" x=\"100\" y=\"140\"/>\n",
+       "        <text fill=\"rgba(0,255,255,.95)\" font-size=\"28\" text-anchor=\"middle\" x=\"200\" y=\"120\">\n",
+       "         IMPORTANT!</text></svg>"
+      ],
+      "text/plain": [
+       "<IPython.core.display.SVG object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "from random import random\n",
+    "w, h = 500, 390\n",
+    "\n",
+    "def box(xy,wh,rgba=(50,50,50,1)):\n",
+    "    return '''<rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"rgba({:d},{:d},{:d},{:f})\" stroke=\"rgb(0,0,0)\" />\n",
+    "        '''.format(xy[0],xy[1], wh[0],wh[1], rgba[0],rgba[1],rgba[2],rgba[3])\n",
+    "\n",
+    "svgs = ['<image xlink:href=\"static/biospace-news-biogen-idec-2.png\" x=\"0\" y=\"0\" width=\"{:d}px\" height=\"{:d}px\"/>'.format(w,h)]\n",
+    "svgs += [box((100,140),(200,180), rgba=(0,255,255,.35))]\n",
+    "svgs += ['''<text x=\"{x:d}\" y=\"{y:d}\" text-anchor=\"middle\" font-size=\"28\" fill=\"rgba(0,255,255,.95)\">\n",
+    "         IMPORTANT!</text>'''.format(x=200, y=120)]\n",
+    "\n",
+    "show_svg(''.join(svgs), width=w, height=h)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
