@@ -92,6 +92,25 @@
             <p class="logo"><a href="contents.html">
               <img class="logo" src="_static/pylit.svg" alt="Logo"/>
             </a></p>
+  <h3><a href="contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Building the HAFFA Logo</a><ul>
+<li><a class="reference internal" href="#Logo-Components">Logo Components</a></li>
+<li><a class="reference internal" href="#Tracing-the-image-file">Tracing the image file</a><ul>
+<li><a class="reference internal" href="#Pilot:">Pilot:</a></li>
+<li><a class="reference internal" href="#Letter-H:">Letter H:</a></li>
+<li><a class="reference internal" href="#Letter-F:">Letter F:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Create-a-Basic-SVG-file">Create a Basic SVG file</a><ul>
+<li><a class="reference internal" href="#Examining-the-test-svg-code">Examining the test svg code</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Creating-a-US-Flag">Creating a US Flag</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="logo/index.html"
                         title="previous chapter">SVG Club Logo</a></p>
@@ -358,223 +377,112 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Building-the-HAFFA-Logo">
 <h1>Building the HAFFA Logo<a class="headerlink" href="#Building-the-HAFFA-Logo" title="Permalink to this headline">¶</a></h1>
-<svg></svg><svg></svg><div class="nbinput nblast docutils container">
+<svg></svg><p>The HAFFA logo was originally drawn up by Diane Basta and scanned to provide an image file. That image file has been in use for a long time, appearing on club hats, tee-shirts nd the club website. However, scaling thta logo up for use on banners, or incorporating it in a badge for use on models or membership cards has not been practical.</p>
+<p><img alt="0a3ae155ca32466ab584f2e9be1191ba" src="_images/haffa-logo.jpg" /></p>
+<p>In this note, we will construct an SVG file that can provide the missing functionality. We will use a Python Jupyter notebook so you can see how this new logo is being generated from the original club logo.</p>
+<div class="section" id="Logo-Components">
+<h2>Logo Components<a class="headerlink" href="#Logo-Components" title="Permalink to this headline">¶</a></h2>
+<p>The original logo has five basic elements:</p>
+<ol class="arabic simple">
+<li><p>The US Flag</p></li>
+<li><p>A heart shape mask used to cut off parts of the flag</p></li>
+<li><p>A Modeler launching an airplane</p></li>
+<li><p>A free-flight model</p></li>
+<li><p>The text “HAFFA” styled in what looks like the papyrus font</p></li>
+</ol>
+</div>
+<div class="section" id="Tracing-the-image-file">
+<h2>Tracing the image file<a class="headerlink" href="#Tracing-the-image-file" title="Permalink to this headline">¶</a></h2>
+<p>I started off by using <strong>Snagit</strong> to crop off the modeler, airplane and HAFFA text from the image file. The flag and heart are well defined, so there was no need to attempt to process those parts of the logo. I broke up the text into the three letters used so each could be processed individually.</p>
+<p>Ouce I had isolated those components, I used <strong>Inkscape</strong> to trace the parts, producing a rough SVG version of each item. The resulting vector form of each component was very messy, since the resolution of the images used was fairly low.</p>
+<p>I then manually edited the imaged using <strong>Inkscape</strong>, deleting many of the generated points to smooth up the final SVG for each item. Here are the component files I produced:</p>
+<div class="section" id="Pilot:">
+<h3>Pilot:<a class="headerlink" href="#Pilot:" title="Permalink to this headline">¶</a></h3>
+<p><img alt="b2ad704263c14c16bf72af815c52d216" src="_images/haffa-pilot.svg" /></p>
+<p>When looking at this rsult in isolation, there are a few concerns. The head is a bit odd, and the legs are a bit out of line. at small scales, this is not very noticable, but in larger sizes we may need ot tweak things a bit. ### Airplane:</p>
+<p><img alt="0f4eb310fb664f5fbd8000abcb95ea7d" src="_images/haffa-airplane.svg" /></p>
+<p>The airplane is not too bad, although the dihedral is not even on both sides. Minor tweaks can fix this.</p>
+</div>
+<div class="section" id="Letter-H:">
+<h3>Letter H:<a class="headerlink" href="#Letter-H:" title="Permalink to this headline">¶</a></h3>
+<p><img alt="27b323c92455440db3fbc0763504e8cc" src="_images/haffa-letter-H.svg" /></p>
+<p>These leters still have a hand-drawn feel that may be fine for the final logo. This might be. club-vote issue. ### Letter A:</p>
+<p><img alt="8012585e949a4e2984728a511660377b" src="_images/haffa-letter-A.svg" /></p>
+</div>
+<div class="section" id="Letter-F:">
+<h3>Letter F:<a class="headerlink" href="#Letter-F:" title="Permalink to this headline">¶</a></h3>
+<p><img alt="f938d993b8494504b809f77553460f35" src="_images/haffa-letter-F.svg" /></p>
+</div>
+</div>
+<div class="section" id="Create-a-Basic-SVG-file">
+<h2>Create a Basic SVG file<a class="headerlink" href="#Create-a-Basic-SVG-file" title="Permalink to this headline">¶</a></h2>
+<p>SVG is a text format, based on XML, which uses “tags” to identify each fundamental component og an image. You will not need to study this in detail to follow this note. We could just type up the svg file directly, but there are many calculations needed to come up with coordinate values we will need to placing the components of the logo, so I decided to generate the logo file using <strong>Python</strong>.</p>
+<p>Assuming that you have a machine with <strong>Python</strong> installed, you will need to install the <strong>drawSVG</strong> package using the standard python <strong>pip</strong> tool if you want to follow along with this process.</p>
+<p>Let’s make sure we have the required setup with a simple test.</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+<span></span><span class="kn">import</span> <span class="nn">drawSvg</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">SVG</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;600&quot; height=&quot;80&quot;&gt;&#39;&#39;&#39;</span> <span class="o">+</span>
-    <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;&lt;circle</span>
-<span class="s1">              cx=&quot;</span><span class="si">{</span><span class="p">(</span><span class="mi">30</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;</span>
-<span class="s1">              cy=&quot;30&quot;</span>
-<span class="s1">              r=&quot;</span><span class="si">{</span><span class="mf">3.</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;</span>
-<span class="s1">              fill=&quot;red&quot;</span>
-<span class="s1">              stroke-width=&quot;2&quot;</span>
-<span class="s1">              stroke=&quot;black&quot;&gt;</span>
-<span class="s1">        &lt;/circle&gt;&#39;&#39;&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span> <span class="o">+</span>
-    <span class="sd">&#39;&#39;&#39;&lt;/svg&gt;&#39;&#39;&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="_images/haffa-logo_4_0.svg" src="_images/haffa-logo_4_0.svg" /></div>
-</div>
+<p>If you see no errors, things are ready to go.</p>
+<p>Next, we need to define the drawing area we will be using to create this logo. SVG uses two concepts to control how images are displayed. First, there is a user coordinate system, which traditionally maps to pixels on a computer screen. The physical size of the image depends on the resolution of the display you use to view the final image, so we assume it is just a dimensionless integer numbe3r that ranges from zero to some value in each direction. Normally, SVG sets up a coordinate system that
+is a bit odd to most humans. the <strong>x</strong> coordinate runs from zero at the left side of the image to some number at the right of the image. The <strong>y</strong> coordinate starts at zero at the top of the image, and runs down to some value. Fortunately, we specify the size of the drawing area in user coordinates using a <strong>width</strong> and 88height** parameter.</p>
+<p>We will set up a standard US letter paper drawing area that is 8.5” by 11” for our “canvas” Remember that most printers will not be able to reach the edges of this page if you try to print something that is on the actual page edges, so the actual drawing will need to leave margins. We will use 0.5” for this margin value.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">svgwrite</span>
-
-<span class="kn">from</span> <span class="nn">svgwrite</span> <span class="kn">import</span> <span class="n">cm</span><span class="p">,</span> <span class="n">mm</span>
-
-
-<span class="k">def</span> <span class="nf">basic_shapes</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-    <span class="n">dwg</span> <span class="o">=</span> <span class="n">svgwrite</span><span class="o">.</span><span class="n">Drawing</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">hlines</span> <span class="o">=</span> <span class="n">dwg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dwg</span><span class="o">.</span><span class="n">g</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;hlines&#39;</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
-        <span class="n">hlines</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dwg</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">cm</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">cm</span><span class="p">)))</span>
-    <span class="n">vlines</span> <span class="o">=</span> <span class="n">dwg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dwg</span><span class="o">.</span><span class="n">g</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;vline&#39;</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">17</span><span class="p">):</span>
-        <span class="n">vlines</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dwg</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="p">((</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">cm</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="p">((</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="mi">21</span><span class="o">*</span><span class="n">cm</span><span class="p">)))</span>
-    <span class="n">shapes</span> <span class="o">=</span> <span class="n">dwg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dwg</span><span class="o">.</span><span class="n">g</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;shapes&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">))</span>
-
-    <span class="c1"># set presentation attributes at object creation as SVG-Attributes</span>
-    <span class="n">circle</span> <span class="o">=</span> <span class="n">dwg</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="mi">8</span><span class="o">*</span><span class="n">cm</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="s1">&#39;2.5cm&#39;</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">circle</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;class1 class2&#39;</span>
-    <span class="n">shapes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">circle</span><span class="p">)</span>
-
-    <span class="c1"># override the &#39;fill&#39; attribute of the parent group &#39;shapes&#39;</span>
-    <span class="n">shapes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dwg</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">insert</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="mi">5</span><span class="o">*</span><span class="n">cm</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">45</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span> <span class="mi">45</span><span class="o">*</span><span class="n">mm</span><span class="p">),</span>
-                        <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
-
-    <span class="c1"># or set presentation attributes by helper functions of the Presentation-Mixin</span>
-    <span class="n">ellipse</span> <span class="o">=</span> <span class="n">shapes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dwg</span><span class="o">.</span><span class="n">ellipse</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="mi">15</span><span class="o">*</span><span class="n">cm</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;5cm&#39;</span><span class="p">,</span> <span class="s1">&#39;10mm&#39;</span><span class="p">)))</span>
-    <span class="n">ellipse</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">stroke</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">dasharray</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
-    <span class="n">dwg</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">basic_shapes</span><span class="p">(</span><span class="s1">&#39;basic_shapes.svg&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">SVG</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;basic_shapes.svg&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="_images/haffa-logo_7_0.svg" src="_images/haffa-logo_7_0.svg" /></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">SVG</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;usflag.svg&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="_images/haffa-logo_8_0.svg" src="_images/haffa-logo_8_0.svg" /></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">drawSvg</span> <span class="k">as</span> <span class="nn">draw</span>
 
-<span class="n">d</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">Drawing</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">displayInline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">Drawing</span><span class="p">(</span><span class="mi">850</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span> <span class="n">displayInline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="c1"># Draw an irregular polygon</span>
-<span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">draw</span><span class="o">.</span><span class="n">Lines</span><span class="p">(</span><span class="o">-</span><span class="mi">80</span><span class="p">,</span> <span class="o">-</span><span class="mi">45</span><span class="p">,</span>
-                    <span class="mi">70</span><span class="p">,</span> <span class="o">-</span><span class="mi">49</span><span class="p">,</span>
-                    <span class="mi">95</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span>
-                    <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span>
-                    <span class="n">close</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">draw</span><span class="o">.</span><span class="n">Lines</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>
+                    <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>
+                    <span class="n">close</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;#eeee00&#39;</span><span class="p">,</span>
             <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">))</span>
-
-<span class="c1"># Draw a rectangle</span>
-<span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">draw</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;#1248ff&#39;</span><span class="p">))</span>
-
-<span class="c1"># Draw a circle</span>
-<span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">draw</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span>
-            <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">))</span>
-
-<span class="c1"># Draw an arbitrary path (a triangle in this case)</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">stroke_width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span>
-              <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">fill_opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># Start path at point (-30, 5)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>  <span class="c1"># Draw line to (60, 30)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="o">-</span><span class="mi">70</span><span class="p">)</span>    <span class="c1"># Draw horizontal line to x=-70</span>
-<span class="n">p</span><span class="o">.</span><span class="n">Z</span><span class="p">()</span>       <span class="c1"># Draw line to start</span>
-<span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-
-<span class="c1"># Draw multiple circular arcs</span>
-<span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">draw</span><span class="o">.</span><span class="n">ArcLine</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">270</span><span class="p">,</span>
-            <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">fill_opacity</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
-<span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">draw</span><span class="o">.</span><span class="n">Arc</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">270</span><span class="p">,</span><span class="n">cw</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">))</span>
-<span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">draw</span><span class="o">.</span><span class="n">Arc</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">270</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="n">cw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">fill_opacity</span><span class="o">=</span><span class="mf">0.3</span><span class="p">))</span>
-
-<span class="c1"># Draw arrows</span>
-<span class="n">arrow</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">Marker</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-<span class="n">arrow</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">draw</span><span class="o">.</span><span class="n">Lines</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">close</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
-              <span class="n">marker_end</span><span class="o">=</span><span class="n">arrow</span><span class="p">)</span>  <span class="c1"># Add an arrow to the end of a path</span>
-<span class="n">p</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">L</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">27</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">L</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-<span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">draw</span><span class="o">.</span><span class="n">Line</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span>
-            <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
-            <span class="n">marker_end</span><span class="o">=</span><span class="n">arrow</span><span class="p">))</span>  <span class="c1"># Add an arrow to the end of a line</span>
-
-<span class="n">d</span><span class="o">.</span><span class="n">setPixelScale</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Set number of pixels per geometry unit</span>
-<span class="c1">#d.setRenderSize(400,200)  # Alternative to setPixelScale</span>
-<span class="n">d</span><span class="o">.</span><span class="n">saveSvg</span><span class="p">(</span><span class="s1">&#39;example.svg&#39;</span><span class="p">)</span>
-<span class="n">d</span><span class="o">.</span><span class="n">savePng</span><span class="p">(</span><span class="s1">&#39;example.png&#39;</span><span class="p">)</span>
-
-<span class="c1"># Display in Jupyter notebook</span>
-<span class="n">d</span><span class="o">.</span><span class="n">rasterize</span><span class="p">()</span>  <span class="c1"># Display as PNG</span>
-<span class="n">d</span>  <span class="c1"># Display as SVG</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIgogICAgIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSItMTAwLjAgLTUwLjAgMjAwIDEwMCI+CjxkZWZzPgo8bWFya2VyIG1hcmtlcldpZHRoPSI0LjAiIG1hcmtlckhlaWdodD0iNC4wIiB2aWV3Qm94PSItMC4xIC0wLjUgMS4wIDEuMCIgb3JpZW50PSJhdXRvIiBpZD0iZDAiPgo8cGF0aCBkPSJNLTAuMSwwLjUgTC0wLjEsLTAuNSBMMC45LDAgWiIgZmlsbD0icmVkIiAvPgo8L21hcmtlcj4KPC9kZWZzPgo8cGF0aCBkPSJNLTgwLDQ1IEw3MCw0OSBMOTUsLTQ5IEwtOTAsLTQwIiBmaWxsPSIjZWVlZTAwIiBzdHJva2U9ImJsYWNrIiAvPgo8cmVjdCB4PSIwIiB5PSItNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1MCIgZmlsbD0iIzEyNDhmZiIgLz4KPGNpcmNsZSBjeD0iLTQwIiBjeT0iMTAiIHI9IjMwIiBmaWxsPSJyZWQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSJibGFjayIgLz4KPHBhdGggZD0iTS0zMCwtNSBsNjAsLTMwIGgtNzAgWiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9ImdyZWVuIiBmaWxsPSJibGFjayIgZmlsbC1vcGFjaXR5PSIwLjUiIC8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iMjAiIHI9IjIwIiBzdHJva2UtZGFzaGFycmF5PSI3My4zMDM4Mjg1ODM3NjE4NCA1Mi4zNTk4Nzc1NTk4Mjk4OCIgc3Ryb2tlLWRhc2hvZmZzZXQ9Ii0zMS40MTU5MjY1MzU4OTc5MyIgc3Ryb2tlPSJyZWQiIHN0cm9rZS13aWR0aD0iNSIgZmlsbD0icmVkIiBmaWxsLW9wYWNpdHk9IjAuMiIgLz4KPHBhdGggZD0iTTcwLjAsMi42Nzk0OTE5MjQzMTEyMjkgQTIwLDIwLDAsMSwwLDU5Ljk5OTk5OTk5OTk5OTk5LDQwLjAiIHN0cm9rZT0iZ3JlZW4iIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIgLz4KPHBhdGggZD0iTTU5Ljk5OTk5OTk5OTk5OTk5LDQwLjAgQTIwLDIwLDAsMSwxLDcwLjAsMi42Nzk0OTE5MjQzMTEyMjkiIHN0cm9rZT0iYmx1ZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJibGFjayIgZmlsbC1vcGFjaXR5PSIwLjMiIC8+CjxwYXRoIGQ9Ik0yMCw0MCBMMjAsMjcgTDAsMjAiIHN0cm9rZT0icmVkIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG1hcmtlci1lbmQ9InVybCgjZDApIiAvPgo8cGF0aCBkPSJNMzAsMjAgTDAsMTAiIHN0cm9rZT0icmVkIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG1hcmtlci1lbmQ9InVybCgjZDApIiAvPgo8L3N2Zz4="></div>
-</div>
+<p>We could display this directly, but looking at the generated SVG will be handy for debugging the work we are going to do.</p>
+<p>Here is how we generate an SVG file from this test code”</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">SVG</span>
-
-<span class="k">def</span> <span class="nf">show_svg</span><span class="p">(</span><span class="n">svgs</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
-    <span class="n">SVG_HEAD</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; &quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;&#39;&#39;&#39;</span>
-    <span class="n">SVG_START</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;</span><span class="si">{w:}</span><span class="s1">px&quot; height=&quot;</span><span class="si">{h:}</span><span class="s1">px&quot; version=&quot;1.1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink= &quot;http://www.w3.org/1999/xlink&quot;&gt;&#39;&#39;&#39;</span>
-    <span class="n">SVG_END</span> <span class="o">=</span> <span class="s1">&#39;&lt;/svg&gt;&#39;</span>
-    <span class="k">return</span> <span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">SVG_HEAD</span> <span class="o">+</span> <span class="n">SVG_START</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">w</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">height</span><span class="p">)</span> <span class="o">+</span> <span class="n">svgs</span> <span class="o">+</span> <span class="n">SVG_END</span><span class="p">))</span>
+<span></span><span class="n">d</span><span class="o">.</span><span class="n">saveSvg</span><span class="p">(</span><span class="s2">&quot;_images/test1.svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We can create a simple python function to display our SVG files.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;_images/</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">fin</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">fin</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
-<span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">390</span>
-
-<span class="k">def</span> <span class="nf">box</span><span class="p">(</span><span class="n">xy</span><span class="p">,</span><span class="n">wh</span><span class="p">,</span><span class="n">rgba</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">1</span><span class="p">)):</span>
-    <span class="k">return</span> <span class="s1">&#39;&#39;&#39;&lt;rect x=&quot;</span><span class="si">{}</span><span class="s1">&quot; y=&quot;</span><span class="si">{}</span><span class="s1">&quot; width=&quot;</span><span class="si">{}</span><span class="s1">&quot; height=&quot;</span><span class="si">{}</span><span class="s1">&quot; fill=&quot;rgba(</span><span class="si">{:d}</span><span class="s1">,</span><span class="si">{:d}</span><span class="s1">,</span><span class="si">{:d}</span><span class="s1">,</span><span class="si">{:f}</span><span class="s1">)&quot; stroke=&quot;rgb(0,0,0)&quot; /&gt;</span>
-<span class="s1">        &#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">xy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">xy</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wh</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">wh</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rgba</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">rgba</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">rgba</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">rgba</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-
-<span class="n">svgs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&lt;image xlink:href=&quot;static/biospace-news-biogen-idec-2.png&quot; x=&quot;0&quot; y=&quot;0&quot; width=&quot;</span><span class="si">{:d}</span><span class="s1">px&quot; height=&quot;</span><span class="si">{:d}</span><span class="s1">px&quot;/&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)]</span>
-<span class="n">svgs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">box</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span><span class="mi">140</span><span class="p">),(</span><span class="mi">200</span><span class="p">,</span><span class="mi">180</span><span class="p">),</span> <span class="n">rgba</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="o">.</span><span class="mi">35</span><span class="p">))]</span>
-<span class="n">svgs</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;&#39;&#39;&lt;text x=&quot;</span><span class="si">{x:d}</span><span class="s1">&quot; y=&quot;</span><span class="si">{y:d}</span><span class="s1">&quot; text-anchor=&quot;middle&quot; font-size=&quot;28&quot; fill=&quot;rgba(0,255,255,.95)&quot;&gt;</span>
-<span class="s1">         IMPORTANT!&lt;/text&gt;&#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">120</span><span class="p">)]</span>
-
-<span class="n">show_svg</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">svgs</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
+<span></span><span class="n">show</span><span class="p">(</span><span class="s2">&quot;test1.svg&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -582,7 +490,117 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/haffa-logo_11_0.svg" src="_images/haffa-logo_11_0.svg" /></div>
+<div class="highlight"><pre>
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;
+&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; xmlns:xlink=&#34;http://www.w3.org/1999/xlink&#34;
+     width=&#34;850&#34; height=&#34;1100&#34; viewBox=&#34;0 -1100 850 1100&#34;&gt;
+&lt;defs&gt;
+&lt;/defs&gt;
+&lt;path d=&#34;M0,0 L100,0 L100,-100 L0,-100 Z&#34; fill=&#34;#eeee00&#34; stroke=&#34;black&#34; /&gt;
+&lt;/svg&gt;
+</pre></div></div>
+</div>
+<p>the <strong>drawSvg</strong> package is doing a trick here. SVG uses a second concept, the <strong>viewport</strong> to set up a world coordinate system that we will look through to see our actual image. In this example code, the <strong>viewport</strong> is being set up so we can think of our drawing coordinates in more normal (for humans) coordinates with <strong>y</strong> moving up. If you look at the coordinates used in the <strong>draw.Lines</strong> function pairs are pairs of values defining an <strong>x</strong>,<strong>y</strong> point. The first point starts the drawing,
+and lines are drawn between each next point and the previous point specified. That gives three sides for the example box. The final side is created by “closing” the polygon. The entire box is filled using a color code (yellow in this case) specified on the <strong>fill</strong> parameter.</p>
+<p>Here is the image we created:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">d</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIgogICAgIHdpZHRoPSI4NTAiIGhlaWdodD0iMTEwMCIgdmlld0JveD0iMCAtMTEwMCA4NTAgMTEwMCI+CjxkZWZzPgo8L2RlZnM+CjxwYXRoIGQ9Ik0wLDAgTDEwMCwwIEwxMDAsLTEwMCBMMCwtMTAwIFoiIGZpbGw9IiNlZWVlMDAiIHN0cm9rZT0iYmxhY2siIC8+Cjwvc3ZnPg=="></div>
+</div>
+<p>The image is scaled to fit the screen, but represents a normal piece of paper. There is a lot of extra space shown, but this image is showing an entire piece of paper, scaled to fit the width of the screen. We can eliminate all the blank space for testing by lowering the size of the drawing area. Since one of the goals of this effort is to produce a circluar badge containing the logo, we will switch to a square drawing canvas for future tests.</p>
+<div class="section" id="Examining-the-test-svg-code">
+<h3>Examining the test svg code<a class="headerlink" href="#Examining-the-test-svg-code" title="Permalink to this headline">¶</a></h3>
+<p>SVG code is based on XML and looks a lot like HGTML as well. That means it is based on blocks of code enclosed between “tags”</p>
+<p>Tags in SVG are names surrounded by angle brackets. Each defined tag specifies some kind of graphics component. These components may actually produce visible drawing elements, but othere are more administrative in nature.</p>
+<p>Each tag appear in two forms: there is an “open” tag and a “close” tag. The difference is that the name of the tag begins with a slash on the “close tag. Between these two tags, other SVG code will be contained. It is important that tags”nest’ properly. You cannot start a tag inside of another tag pair and not close it before the outer closing tag.</p>
+<p>The open tag can contain a set of parameters, which are space separqted parameter. Each parameter has a name followed by an equal sign, then the parameter value in quotes. The available parameters depend on the tag being used.</p>
+<p>The most important tag is the <strong>svg</strong> tag, which surrounds all code needed to produce a single image. The parameters in that <strong>svg</strong> tag set up the canvas and coordinate systems we will use.</p>
+<p>There is an empty set of tags named <strong>def</strong> that are not being used in this example. Finally, the box is displayed by defining the <strong>path</strong> to be drawn. The commands that actually draw the box are coded inside the string assigned to the parameter <strong>d</strong>. The individual SVG commands are simple to understand. but there are sev3ral of them available.</p>
+<ol class="arabic simple">
+<li><p><strong>M</strong> - mve a pen from wherever it is now to the specified coordinate. The pen is “up”, meaning nothing is being drawn.</p></li>
+<li><p><strong>L</strong> - draw linw from the previous position to the indicated coordinate. In this case a straight line id drawn. The color of the lne and the size of the pen are controlled by the <strong>stroke</strong> and <strong>stroke-width</strong> parameters.</p></li>
+<li><p><strong>Z</strong> - this colses a polygon drawn as a series of stratght lines. The final line will run from the last point specified to the first point specified. This should create a closed area suitable for “filling” with some color.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="Creating-a-US-Flag">
+<h2>Creating a US Flag<a class="headerlink" href="#Creating-a-US-Flag" title="Permalink to this headline">¶</a></h2>
+<p>The geometry of the US Flag is well defined. Basically, it is a simple rectangle with the width 1.9 times the height. We will place thirteen equal height stripes on this rectangle. If we start off with each stripe set to 100 high, then the flag dimensions are:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stripe_height</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">flag_height</span> <span class="o">=</span> <span class="mi">13</span> <span class="o">*</span> <span class="n">stripe_height</span>
+<span class="n">flag_width</span> <span class="o">=</span> <span class="mf">1.9</span> <span class="o">*</span> <span class="n">flag_height</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">flag_width</span><span class="p">,</span> <span class="n">flag_height</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2470.0 1300
+</pre></div></div>
+</div>
+<p>The basic flag rectangle can now be set up:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">flag</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">Drawing</span><span class="p">(</span><span class="n">flag_height</span><span class="p">,</span> <span class="n">flag_width</span><span class="p">)</span>
+
+<span class="c1"># Draw an irregular polygon</span>
+<span class="n">flag</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">draw</span><span class="o">.</span><span class="n">Lines</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="n">flag_width</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="n">flag_width</span><span class="p">,</span> <span class="n">flag_height</span><span class="p">,</span>
+                    <span class="mi">0</span><span class="p">,</span> <span class="n">flag_height</span><span class="p">,</span>
+                    <span class="n">close</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+            <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">))</span>
+<span class="n">flag</span><span class="o">.</span><span class="n">setRenderSize</span><span class="p">(</span><span class="mi">600</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/haffa-logo_17_0.svg" src="_images/haffa-logo_17_0.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">flag</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/haffa-logo_18_0.svg" src="_images/haffa-logo_18_0.svg" /></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -592,14 +610,6 @@ div.rendered_html tbody tr:hover {
 <span></span>
 </pre></div>
 </div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
 </div>
 </div>
 </div>

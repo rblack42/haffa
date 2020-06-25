@@ -7,3 +7,7 @@ MK		:= mk
 -include $(MK)/sphinx.mk
 -include $(MK)/pypi.mk
 -include $(MK)/version.mk
+
+.PHONY: jupyter
+jupyter:
+	cd rst && jupyter notebook
