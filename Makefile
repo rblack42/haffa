@@ -8,6 +8,6 @@ MK		:= mk
 -include $(MK)/pypi.mk
 -include $(MK)/version.mk
 
-.PHONY: jupyter
-jupyter:
+.PHONY: nb
+nb:
 	cd rst && jupyter notebook
