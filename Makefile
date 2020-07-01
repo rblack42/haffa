@@ -9,5 +9,5 @@ MK		:= mk
 -include $(MK)/version.mk
 
 .PHONY: nb
-nb:
+nb:	## Launch Jupyter notebook
 	cd rst && jupyter notebook
