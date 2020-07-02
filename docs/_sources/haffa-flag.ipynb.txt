@@ -1,0 +1,573 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Creating the U.S. Flag\n",
+    "\n",
+    "We start off by setting up the basic dimensions for the flag. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "2470.0 1300\n"
+     ]
+    }
+   ],
+   "source": [
+    "stripe_width = 100\n",
+    "flag_height = 13 * stripe_width\n",
+    "flag_width = 1.9 * flag_height\n",
+    "\n",
+    "print(flag_width, flag_height)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We will use these dimensions to set the drawing canvas. We begin our SVG file by creating a field of stripes:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"2470\" height=\"1300\">\n",
+      "\n",
+      "\n",
+      "</svg>\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "svg1 = \"\"\"\n",
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\">\n",
+    "\"\"\" % (flag_width, flag_height)\n",
+    "svg2 = \"\"\"\n",
+    "</svg>\n",
+    "\"\"\" \n",
+    "print(svg1)\n",
+    "print(svg2)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We will build the basic flag by creating a red rectangle on which we will draw the required white stripes as very thick lines."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "  <rect width=\"2470\" height=\"1300\" \n",
+      "  style=\"fill:rgb(255,0,0)\" />\n"
+     ]
+    }
+   ],
+   "source": [
+    "flag = \"\"\"\n",
+    "  <rect width=\"%d\" height=\"%d\" \n",
+    "  style=\"fill:rgb(255,0,0)\" />\"\"\" % (flag_width, flag_height)\n",
+    "\n",
+    "print(flag)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Here is the code for a fat white line:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<line x=\"0\" y=\"2470\" style=\"stroke:rgb(255,255,255);stroke-width:100\" />\n"
+     ]
+    }
+   ],
+   "source": [
+    "line = \"\"\"<line x=\"%d\" y=\"%d\" style=\"stroke:rgb(255,255,255);stroke-width:%d\" />\"\"\" % (0, flag_width, stripe_width)\n",
+    "\n",
+    "print(line)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The star field is another blue rectangle:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "<rect width=\"988\" height=\"700\"\n",
+      "style=\"fill:rgb(0,0,255)\" />\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "star_field = \"\"\"\n",
+    "<rect width=\"%d\" height=\"%d\"\n",
+    "style=\"fill:rgb(0,0,255)\" />\n",
+    "\"\"\" % (flag_height * 0.76, 7 * stripe_width) \n",
+    "\n",
+    "print(star_field)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We now have the pieces needed to build the basic flag image (neglecting the star field for now):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def build_flag(width, height):\n",
+    "    svg1 = \"\"\"\n",
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\">\n",
+    "\"\"\" % (flag_width, flag_height)\n",
+    "    svg2 = \"\"\"\n",
+    "</svg>\n",
+    "\"\"\"\n",
+    "    flag = \"\"\"\n",
+    "  <rect width=\"%d\" height=\"%d\" \n",
+    "  style=\"fill:rgb(255,0,0)\" />\"\"\" % (flag_width, flag_height)\n",
+    "    star_field = \"\"\"\n",
+    "<rect width=\"%d\" height=\"%d\"\n",
+    "style=\"fill:rgb(0,0,255)\" />\"\"\" % (flag_height * 0.76, 7 * flag_height / 13)\n",
+    "    svg = svg1\n",
+    "    svg += \"  <g>\"\n",
+    "    svg += flag\n",
+    "    x1 = 0;\n",
+    "    x2 = width\n",
+    "    stripe_width = height/13\n",
+    "    y = 1.5 * stripe_width\n",
+    "    for stripe in range(0,7):\n",
+    "        line = \"\"\"<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" \n",
+    "  style=\"stroke:rgb(255,255,255);stroke-width:%d\" />\"\"\" % (0, y, width, y, stripe_width )\n",
+    "        svg += line\n",
+    "        y += 2 * stripe_width\n",
+    "    svg += star_field\n",
+    "    svg += \"  </g>\"\n",
+    "    svg += svg2\n",
+    "    with open('_images/us-flag.svg','w') as fout:\n",
+    "        fout.write(svg)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To see the results of calling this function, we need the **show** routine from the presious notebook"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def show(fname):\n",
+    "    with open(fname) as fin:\n",
+    "        lines = fin.readlines()\n",
+    "        for l in lines:\n",
+    "            print(l.rstrip())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"2470\" height=\"1300\">\n",
+      "  <g>\n",
+      "  <rect width=\"2470\" height=\"1300\"\n",
+      "  style=\"fill:rgb(255,0,0)\" /><line x1=\"0\" y1=\"150\" x2=\"2470\" y2=\"150\"\n",
+      "  style=\"stroke:rgb(255,255,255);stroke-width:100\" /><line x1=\"0\" y1=\"350\" x2=\"2470\" y2=\"350\"\n",
+      "  style=\"stroke:rgb(255,255,255);stroke-width:100\" /><line x1=\"0\" y1=\"550\" x2=\"2470\" y2=\"550\"\n",
+      "  style=\"stroke:rgb(255,255,255);stroke-width:100\" /><line x1=\"0\" y1=\"750\" x2=\"2470\" y2=\"750\"\n",
+      "  style=\"stroke:rgb(255,255,255);stroke-width:100\" /><line x1=\"0\" y1=\"950\" x2=\"2470\" y2=\"950\"\n",
+      "  style=\"stroke:rgb(255,255,255);stroke-width:100\" /><line x1=\"0\" y1=\"1150\" x2=\"2470\" y2=\"1150\"\n",
+      "  style=\"stroke:rgb(255,255,255);stroke-width:100\" /><line x1=\"0\" y1=\"1350\" x2=\"2470\" y2=\"1350\"\n",
+      "  style=\"stroke:rgb(255,255,255);stroke-width:100\" />\n",
+      "<rect width=\"988\" height=\"700\"\n",
+      "style=\"fill:rgb(0,0,255)\" />  </g>\n",
+      "</svg>\n"
+     ]
+    }
+   ],
+   "source": [
+    "build_flag(flag_width, flag_height)\n",
+    "show('_images/us-flag.svg')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Here is the flag so far:\n",
+    "\n",
+    "<img src=\"_images/us-flag.svg\">"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Building a star\n",
+    "\n",
+    "The hardest part of generating the flag is placing all of the stars. Let;s start off by building one star."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\">\n",
+      "\n",
+      "  <circle cx=\"50\" cy=\"50\" r=\"50\" style=\"fill:none;stroke:rgb(0,0,0);stroke-width:2\" />\n",
+      "</svg>\n"
+     ]
+    }
+   ],
+   "source": [
+    "def star(diameter):\n",
+    "    svg = \"\"\"\n",
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\">\n",
+    "\"\"\" % (diameter, diameter)\n",
+    "    radius = diameter/2\n",
+    "    x = radius\n",
+    "    y = radius\n",
+    "    circle = \"\"\"\n",
+    "  <circle cx=\"%d\" cy=\"%d\" r=\"%d\" style=\"fill:none;stroke:rgb(0,0,0);stroke-width:2\" />\n",
+    "\"\"\" % (x,y,radius)\n",
+    "    svg += circle\n",
+    "    svg += \"\"\"</svg>\"\"\"\n",
+    "    with open('_images/us-star.svg','w') as fout:\n",
+    "        fout.write(svg)\n",
+    "        \n",
+    "star(100)\n",
+    "show('_images/us-star.svg')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We should see a simple circle.\n",
+    "\n",
+    "<img src=\"_images/us-star.svg\">\n",
+    "\n",
+    "Now for the fun part. We need to calculate the points for the star. These appear at 72 degree intervals from the top. A little trig will get those points set up:\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 73,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[['50.00', '0.00'], ['97.55', '34.55'], ['79.39', '90.45'], ['20.61', '90.45'], ['2.45', '34.55']]\n"
+     ]
+    }
+   ],
+   "source": [
+    "import math\n",
+    "angle = 0\n",
+    "radius = 50\n",
+    "\n",
+    "points = []\n",
+    "for p in range(5):\n",
+    "    x = radius + radius * math.sin(angle * math.pi / 180.0)\n",
+    "    y = radius - radius * math.cos(angle * math.pi / 180.0)\n",
+    "    sx = '%.2f' % x\n",
+    "    sy = '%.2f' % y\n",
+    "    points.append([sx,sy])\n",
+    "    angle += 72\n",
+    "print(points)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's draw a path using these points. SVG has an interesting trick we can use to create the star. If we draw a **polyline** using these points in the correct order, we will get the star."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "the correct order is this list (starting with zero at the top):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 68,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "order = [0,2,4,1,3]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 65,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "<path d=\"M 50.00 0.00\n",
+      "  L\n",
+      "  50.00 0.00\n",
+      "  97.55 34.55\n",
+      "  79.39 90.45\n",
+      "  20.61 90.45\n",
+      "  2.45 34.55 Z\" style=\"fill:#000000\" />\n"
+     ]
+    }
+   ],
+   "source": [
+    "path = \"\"\"\n",
+    "<polygon  points=\"\n",
+    "\"\"\"\n",
+    "  %s, %s % (points[0][0], points[0][1])\n",
+    "for p in points:\n",
+    "    x = p[0]\n",
+    "    y = p[1]\n",
+    "    path += \"\"\"\n",
+    "  %s %s\"\"\" % (x,y)\n",
+    "path += \"\"\" Z\" style=\"fill:#000000\" />\"\"\" \n",
+    "    \n",
+    "print(path)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 70,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "<polygon points = \"\n",
+      "  50.00,0.00  79.39,90.45  2.45,34.55  97.55,34.55  20.61,90.45\"style=\"fill:white; rule:nonzero;\" />\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "svg = \"\"\"\n",
+    "<polygon points = \"\n",
+    "\"\"\"\n",
+    "for p in order:\n",
+    "    px = points[p][0]\n",
+    "    py = points[p][1]\n",
+    "    svg += \"  %s,%s\" % (px, py)\n",
+    "svg += \"\\\"\"\n",
+    "svg += \"\"\"style=\"fill:white; rule:nonzero;\" />\n",
+    "\"\"\"\n",
+    "\n",
+    "print(svg)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We now have code we can use to generate a white star for placement on the star field"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 79,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def gen_star(diameter, color):\n",
+    "    svg = \"\"\"\n",
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\">   \n",
+    "    \"\"\" % (diameter, diameter)\n",
+    "    radius = diameter / 2\n",
+    "    angle = 0\n",
+    "    points = []\n",
+    "    for p in range(5):\n",
+    "        x = radius + radius * math.sin(angle * math.pi / 180.0)\n",
+    "        y = radius - radius * math.cos(angle * math.pi / 180.0)\n",
+    "        sx = '%.2f' % x\n",
+    "        sy = '%.2f' % y\n",
+    "        points.append([sx,sy])\n",
+    "        angle += 72\n",
+    "    order = [0,2,4,1,3]\n",
+    "    svg += \"\"\"\n",
+    "<polygon points = \"\n",
+    "\"\"\"\n",
+    "    for p in order:\n",
+    "        px = points[p][0]\n",
+    "        py = points[p][1]\n",
+    "        svg += \"  %s,%s\" % (px, py)\n",
+    "    svg += \"\\\"\"\n",
+    "    svg += \"\"\" style=\"fill:%s; rule:nonzero;\" />\n",
+    "\"\"\" % color\n",
+    "    svg += \"</svg>\"\n",
+    "    with open('_images/haffa-star.svg','w') as fout:\n",
+    "        fout.write(svg)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now we can display this star"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 80,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "gen_star(100, \"red\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 81,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\">\n",
+      "\n",
+      "<polygon points = \"\n",
+      "  50.00,0.00  79.39,90.45  2.45,34.55  97.55,34.55  20.61,90.45\" style=\"fill:red; rule:nonzero;\" />\n",
+      "</svg>\n"
+     ]
+    }
+   ],
+   "source": [
+    "show('_images/haffa-star.svg')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "And, here is the test star.\n",
+    "\n",
+    "<img src=\"_images/haffa-star.svg\">"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The challenge now is to place these stars on the blue star field. SOunds like a job for a loop. Unfortunately, SVG does not support loops, so we need to resort to trickery to display all the needed stars properly.\n",
+    "\n",
+    "The **use** tag lets us use a path we have defined with an identifier. Let's try an experiment with this feature"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "svg = \"\"\"\n",
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"700\" height=\"700\">\n",
+    "  <use xlink:href=\"_images/haffa-star.svg\" />\n",
+    "</svg>\n",
+    "\"\"\""
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

@@ -15,7 +15,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Bibliography" href="zbibliography.html" />
+    <link rel="next" title="Creating the U.S. Flag" href="haffa-flag.html" />
     <link rel="prev" title="SVG Club Logo" href="logo/index.html" />
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
           rel='stylesheet' type='text/css' />
@@ -76,7 +76,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="zbibliography.html" title="Bibliography"
+          <a href="haffa-flag.html" title="Creating the U.S. Flag"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="logo/index.html" title="SVG Club Logo"
@@ -98,15 +98,21 @@
 <li><a class="reference internal" href="#Logo-Components">Logo Components</a></li>
 <li><a class="reference internal" href="#Tracing-the-image-file">Tracing the image file</a><ul>
 <li><a class="reference internal" href="#Pilot:">Pilot:</a></li>
+<li><a class="reference internal" href="#Airplane:">Airplane:</a></li>
 <li><a class="reference internal" href="#Letter-H:">Letter H:</a></li>
+<li><a class="reference internal" href="#Letter-A:">Letter A:</a></li>
 <li><a class="reference internal" href="#Letter-F:">Letter F:</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#Create-a-Basic-SVG-file">Create a Basic SVG file</a><ul>
-<li><a class="reference internal" href="#Examining-the-test-svg-code">Examining the test svg code</a></li>
+<li><a class="reference internal" href="#Processing-a-Basic-SVG-file">Processing a Basic SVG file</a></li>
+<li><a class="reference internal" href="#Removing-Relative-Coordinates">Removing Relative Coordinates</a><ul>
+<li><a class="reference internal" href="#id1">Pilot:</a></li>
+<li><a class="reference internal" href="#id2">Airplane:</a></li>
+<li><a class="reference internal" href="#id3">Letter H:</a></li>
+<li><a class="reference internal" href="#id4">Letter A:</a></li>
+<li><a class="reference internal" href="#id5">Letter F:</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#Creating-a-US-Flag">Creating a US Flag</a></li>
 </ul>
 </li>
 </ul>
@@ -115,8 +121,8 @@
   <p class="topless"><a href="logo/index.html"
                         title="previous chapter">SVG Club Logo</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="zbibliography.html"
-                        title="next chapter">Bibliography</a></p>
+  <p class="topless"><a href="haffa-flag.html"
+                        title="next chapter">Creating the U.S. Flag</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -377,95 +383,78 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Building-the-HAFFA-Logo">
 <h1>Building the HAFFA Logo<a class="headerlink" href="#Building-the-HAFFA-Logo" title="Permalink to this headline">¶</a></h1>
-<svg></svg><p>The HAFFA logo was originally drawn up by Diane Basta and scanned to provide an image file. That image file has been in use for a long time, appearing on club hats, tee-shirts nd the club website. However, scaling thta logo up for use on banners, or incorporating it in a badge for use on models or membership cards has not been practical.</p>
-<p><img alt="0a3ae155ca32466ab584f2e9be1191ba" src="_images/haffa-logo.jpg" /></p>
-<p>In this note, we will construct an SVG file that can provide the missing functionality. We will use a Python Jupyter notebook so you can see how this new logo is being generated from the original club logo.</p>
+<p>The HAFFA logo was originally drawn up by Diane Basta and scanned to provide an image file. That image file has been in use for a long time, appearing on club hats, tee-shirts and the club website. However, since the only available image is a bitmap, scaling the logo up for use on banners, or incorporating it in a badge for use on models or membership cards has not been practical.</p>
+<p><img alt="cea77bb2d89c432c8a3db35095115190" src="_images/haffa-logo.jpg" /></p>
+<p>In this note, we will construct an SVG file that can provide the missing functionality. We will use a Python Jupyter notebook to document how this new logo is being generated from the original club logo.</p>
 <div class="section" id="Logo-Components">
 <h2>Logo Components<a class="headerlink" href="#Logo-Components" title="Permalink to this headline">¶</a></h2>
 <p>The original logo has five basic elements:</p>
 <ol class="arabic simple">
-<li><p>The US Flag</p></li>
-<li><p>A heart shape mask used to cut off parts of the flag</p></li>
-<li><p>A Modeler launching an airplane</p></li>
-<li><p>A free-flight model</p></li>
-<li><p>The text “HAFFA” styled in what looks like the papyrus font</p></li>
+<li><p>The US Flag.</p></li>
+<li><p>A heart shape mask used to mask off parts of the flag.</p></li>
+<li><p>A Modeler launching an airplane.</p></li>
+<li><p>A free-flight model.</p></li>
+<li><p>The text “HAFFA” styled in what looks like the papyrus font.</p></li>
 </ol>
 </div>
 <div class="section" id="Tracing-the-image-file">
 <h2>Tracing the image file<a class="headerlink" href="#Tracing-the-image-file" title="Permalink to this headline">¶</a></h2>
-<p>I started off by using <strong>Snagit</strong> to crop off the modeler, airplane and HAFFA text from the image file. The flag and heart are well defined, so there was no need to attempt to process those parts of the logo. I broke up the text into the three letters used so each could be processed individually.</p>
-<p>Ouce I had isolated those components, I used <strong>Inkscape</strong> to trace the parts, producing a rough SVG version of each item. The resulting vector form of each component was very messy, since the resolution of the images used was fairly low.</p>
-<p>I then manually edited the imaged using <strong>Inkscape</strong>, deleting many of the generated points to smooth up the final SVG for each item. Here are the component files I produced:</p>
+<p>I started off by using <strong>Snagit</strong>, an image editing tool, to crop off the modeler, airplane and HAFFA text from the image file. The flag and heart are well defined, so there was no need to attempt to process those parts of the logo image. I broke up the text into the three letters used so each could be processed individually.</p>
+<p>Once I had isolated those components, I used <strong>Inkscape</strong> to trace the parts, producing a rough SVG version of each item. <strong>Inkscape</strong> has a “simplify” command that cleans up the SVG somewhat, at the expense of rounding some areas. The resulting vector form of each component was very messy, since the resolution of the images used was fairly low.</p>
+<p>Finally, I then manually edited the images using <strong>Inkscape</strong>, deleting many of the remaining points to smooth up the final SVG for each item. I did some minor editing to make the data easier t see as well. Here are the basic component files I produced:</p>
 <div class="section" id="Pilot:">
 <h3>Pilot:<a class="headerlink" href="#Pilot:" title="Permalink to this headline">¶</a></h3>
-<p><img alt="b2ad704263c14c16bf72af815c52d216" src="_images/haffa-pilot.svg" /></p>
-<p>When looking at this rsult in isolation, there are a few concerns. The head is a bit odd, and the legs are a bit out of line. at small scales, this is not very noticable, but in larger sizes we may need ot tweak things a bit. ### Airplane:</p>
-<p><img alt="0f4eb310fb664f5fbd8000abcb95ea7d" src="_images/haffa-airplane.svg" /></p>
-<p>The airplane is not too bad, although the dihedral is not even on both sides. Minor tweaks can fix this.</p>
+<p><img alt="d488b84c51b34a3d96c724573c708718" src="_images/haffa-pilot.svg" /></p>
+</div>
+<div class="section" id="Airplane:">
+<h3>Airplane:<a class="headerlink" href="#Airplane:" title="Permalink to this headline">¶</a></h3>
+<p><img alt="508d9e511a80474796c84e031fab86bc" src="_images/haffa-airplane.svg" /></p>
 </div>
 <div class="section" id="Letter-H:">
 <h3>Letter H:<a class="headerlink" href="#Letter-H:" title="Permalink to this headline">¶</a></h3>
-<p><img alt="27b323c92455440db3fbc0763504e8cc" src="_images/haffa-letter-H.svg" /></p>
-<p>These leters still have a hand-drawn feel that may be fine for the final logo. This might be. club-vote issue. ### Letter A:</p>
-<p><img alt="8012585e949a4e2984728a511660377b" src="_images/haffa-letter-A.svg" /></p>
+<p><img alt="b171d3d8dc0e492fb7970259c1eece80" src="_images/haffa-letter-H.svg" /></p>
+</div>
+<div class="section" id="Letter-A:">
+<h3>Letter A:<a class="headerlink" href="#Letter-A:" title="Permalink to this headline">¶</a></h3>
+<p><img alt="25d502dd9d4f45d08a5da55a71ffeadd" src="_images/haffa-letter-A.svg" /></p>
 </div>
 <div class="section" id="Letter-F:">
 <h3>Letter F:<a class="headerlink" href="#Letter-F:" title="Permalink to this headline">¶</a></h3>
-<p><img alt="f938d993b8494504b809f77553460f35" src="_images/haffa-letter-F.svg" /></p>
+<p><img alt="3e4302564e55415da85c01b7b72d8566" src="_images/haffa-letter-F.svg" /></p>
+<p>All of these elements stll retain the hand-drawn feel. We may need to tweak them further as we build large format images from the final SVG files we produce.</p>
+<p><strong>inkscape</strong> produces SVG that is a bit odd. For most users, this does not matter. However, My goal was to build a clean SVG file for the club logo, so I decided to manually cut out the needed drawing data from the <strong>inkscape</strong> SVG code and use that to produce an SVG file more readable by humans.</p>
+<p>We will use a bit of Python to do this job.</p>
 </div>
 </div>
-<div class="section" id="Create-a-Basic-SVG-file">
-<h2>Create a Basic SVG file<a class="headerlink" href="#Create-a-Basic-SVG-file" title="Permalink to this headline">¶</a></h2>
-<p>SVG is a text format, based on XML, which uses “tags” to identify each fundamental component og an image. You will not need to study this in detail to follow this note. We could just type up the svg file directly, but there are many calculations needed to come up with coordinate values we will need to placing the components of the logo, so I decided to generate the logo file using <strong>Python</strong>.</p>
-<p>Assuming that you have a machine with <strong>Python</strong> installed, you will need to install the <strong>drawSVG</strong> package using the standard python <strong>pip</strong> tool if you want to follow along with this process.</p>
-<p>Let’s make sure we have the required setup with a simple test.</p>
+<div class="section" id="Processing-a-Basic-SVG-file">
+<h2>Processing a Basic SVG file<a class="headerlink" href="#Processing-a-Basic-SVG-file" title="Permalink to this headline">¶</a></h2>
+<p>SVG is a text format, based on XML, which uses “tags” to identify each fundamental component of an image. If you have not seen this type of markup before, the idea is pretty simple. Here is a basic “tag”:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">tag</span> <span class="n">optional_parameters</span><span class="o">&gt;</span>
+  <span class="n">tag</span> <span class="n">body</span>
+<span class="o">&lt;/</span><span class="n">tag</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Other tags can be placed in the tag body area producing a nested structure. It is common to indent those nested elements for readability.</p>
+<p>SVG defines a lot of standard tag names, each performing some action when the image file is displayed. Some tags cause visible drawing effects to appear. Other tags are more administrative in nature.</p>
+<p>For instance, the outermost tag in any SVG file is the <strong>svg</strong> tag itself. This tag defines the drawing canvas to be used for the image. we will see an example of this in a bit.</p>
+<p>SVG files can be processed using a number of Python tools. One common tool is <strong>lxml</strong> which can be installed using the standard library installer <strong>pip</strong>. You can inatall <strong>lxml</strong> using this command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install lxml
+</pre></div>
+</div>
+<p>Once this step finishes, you can check your installation by importing the library:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">drawSvg</span>
+<span></span><span class="kn">import</span> <span class="nn">lxml</span>
 </pre></div>
 </div>
 </div>
-<p>If you see no errors, things are ready to go.</p>
-<p>Next, we need to define the drawing area we will be using to create this logo. SVG uses two concepts to control how images are displayed. First, there is a user coordinate system, which traditionally maps to pixels on a computer screen. The physical size of the image depends on the resolution of the display you use to view the final image, so we assume it is just a dimensionless integer numbe3r that ranges from zero to some value in each direction. Normally, SVG sets up a coordinate system that
-is a bit odd to most humans. the <strong>x</strong> coordinate runs from zero at the left side of the image to some number at the right of the image. The <strong>y</strong> coordinate starts at zero at the top of the image, and runs down to some value. Fortunately, we specify the size of the drawing area in user coordinates using a <strong>width</strong> and 88height** parameter.</p>
-<p>We will set up a standard US letter paper drawing area that is 8.5” by 11” for our “canvas” Remember that most printers will not be able to reach the edges of this page if you try to print something that is on the actual page edges, so the actual drawing will need to leave margins. We will use 0.5” for this margin value.</p>
+<p>If you see no errors, you are ready to go.</p>
+<p>Let’s begin by building a simple function that displays the text in an SVG file:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">drawSvg</span> <span class="k">as</span> <span class="nn">draw</span>
-
-<span class="n">d</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">Drawing</span><span class="p">(</span><span class="mi">850</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span> <span class="n">displayInline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="c1"># Draw an irregular polygon</span>
-<span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">draw</span><span class="o">.</span><span class="n">Lines</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
-                    <span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
-                    <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>
-                    <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>
-                    <span class="n">close</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;#eeee00&#39;</span><span class="p">,</span>
-            <span class="n">stroke</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<p>We could display this directly, but looking at the generated SVG will be handy for debugging the work we are going to do.</p>
-<p>Here is how we generate an SVG file from this test code”</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">d</span><span class="o">.</span><span class="n">saveSvg</span><span class="p">(</span><span class="s2">&quot;_images/test1.svg&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>We can create a simple python function to display our SVG files.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -477,12 +466,13 @@ is a bit odd to most humans. the <strong>x</strong> coordinate runs from zero at
 </pre></div>
 </div>
 </div>
+<p>We can now use this function to diaplsy one of our <strong>inkscape</strong> SVG files:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">show</span><span class="p">(</span><span class="s2">&quot;test1.svg&quot;</span><span class="p">)</span>
+<span></span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;haffa-letter-H.svg&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -491,63 +481,96 @@ is a bit odd to most humans. the <strong>x</strong> coordinate runs from zero at
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;
-&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; xmlns:xlink=&#34;http://www.w3.org/1999/xlink&#34;
-     width=&#34;850&#34; height=&#34;1100&#34; viewBox=&#34;0 -1100 850 1100&#34;&gt;
-&lt;defs&gt;
-&lt;/defs&gt;
-&lt;path d=&#34;M0,0 L100,0 L100,-100 L0,-100 Z&#34; fill=&#34;#eeee00&#34; stroke=&#34;black&#34; /&gt;
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34; standalone=&#34;no&#34;?&gt;
+&lt;svg
+   xmlns:dc=&#34;http://purl.org/dc/elements/1.1/&#34;
+   xmlns:cc=&#34;http://creativecommons.org/ns#&#34;
+   xmlns:rdf=&#34;http://www.w3.org/1999/02/22-rdf-syntax-ns#&#34;
+   xmlns:svg=&#34;http://www.w3.org/2000/svg&#34;
+   xmlns=&#34;http://www.w3.org/2000/svg&#34;
+   xmlns:sodipodi=&#34;http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd&#34;
+   xmlns:inkscape=&#34;http://www.inkscape.org/namespaces/inkscape&#34;
+   version=&#34;1.1&#34;
+   id=&#34;svg159&#34;
+   width=&#34;233.30176&#34;
+   height=&#34;200&#34;
+   viewBox=&#34;0 0 233.30176 200&#34;
+   sodipodi:docname=&#34;haffa-letter-H.svg&#34;
+   inkscape:version=&#34;1.0 (4035a4f, 2020-05-01)&#34;&gt;
+  &lt;metadata
+     id=&#34;metadata25&#34;&gt;
+    &lt;rdf:RDF&gt;
+      &lt;cc:Work
+         rdf:about=&#34;&#34;&gt;
+        &lt;dc:format&gt;image/svg+xml&lt;/dc:format&gt;
+        &lt;dc:type
+           rdf:resource=&#34;http://purl.org/dc/dcmitype/StillImage&#34; /&gt;
+        &lt;dc:title&gt;&lt;/dc:title&gt;
+      &lt;/cc:Work&gt;
+    &lt;/rdf:RDF&gt;
+  &lt;/metadata&gt;
+  &lt;defs
+     id=&#34;defs23&#34; /&gt;
+  &lt;sodipodi:namedview
+     inkscape:document-rotation=&#34;0&#34;
+     pagecolor=&#34;#ffffff&#34;
+     bordercolor=&#34;#666666&#34;
+     borderopacity=&#34;1&#34;
+     objecttolerance=&#34;10&#34;
+     gridtolerance=&#34;10&#34;
+     guidetolerance=&#34;10&#34;
+     inkscape:pageopacity=&#34;0&#34;
+     inkscape:pageshadow=&#34;2&#34;
+     inkscape:window-width=&#34;995&#34;
+     inkscape:window-height=&#34;713&#34;
+     id=&#34;namedview21&#34;
+     showgrid=&#34;false&#34;
+     inkscape:zoom=&#34;1.8375&#34;
+     inkscape:cx=&#34;116.65088&#34;
+     inkscape:cy=&#34;67.346938&#34;
+     inkscape:window-x=&#34;0&#34;
+     inkscape:window-y=&#34;23&#34;
+     inkscape:window-maximized=&#34;0&#34;
+     inkscape:current-layer=&#34;g167&#34; /&gt;
+  &lt;g
+     id=&#34;g167&#34;
+     transform=&#34;translate(136.94005,65.687287)&#34;&gt;
+    &lt;path
+       d=&#34;m -135.01024,132.70382 c 10.54609,3.28331 21.06694,-3.94871 24.20863,-14.05748 4.83401,-12.31659 4.18421,-25.82625 7.88479,-38.447441 4.573935,-21.167941 9.167168,-42.343603 14.707323,-63.284024 19.235095,-5.954538 39.279958,2.222467 58.889842,0.247879 18.340853,0.452088 36.9701078,-1.646062 55.092227,2.271167 0.790803,20.083306 -5.016041,39.717921 -8.910998,59.261021 -2.763164,11.181582 -4.782812,22.665968 -8.1356686,33.631268 -2.3256387,7.99989 -9.35474886,14.56234 -12.7824555,20.60349 9.4996704,3.40853 20.1369771,1.19488 29.9556781,-0.006 4.274571,-10.41031 2.242043,-25.10932 4.4021,-37.099568 0.325371,-13.547194 7.011616,-25.690748 8.520576,-38.895347 1.485797,-15.289763 4.23731,-30.443234 8.0051,-45.294194 1.084922,-13.9603685 4.103866,-27.680181 6.002906,-41.514128 2.50087,-10.587528 7.267076,-20.619131 14.015169,-29.145285 0.01284,-11.146878 -18.523894,-1.562864 -23.464886,3.334707 -7.88075,7.836575 -3.357508,8.803847 -7.31786,22.433612 C 33.537958,-24.622444 33.692745,-0.79858141 25.555547,2.3678998 6.5808517,1.8772569 -12.394418,0.0218051 -31.364679,0.5161385 c -17.990282,-1.9676646 -36.150518,-1.24229362 -54.137347,-3.2591353 0.515947,-14.8566282 5.406472,-29.1459632 5.766658,-44.0271972 1.919969,-4.340467 13.249644,-18.475635 4.153312,-18.40317 -6.77894,6.101398 -18.69357,7.820132 -23.160506,15.10823 4.561691,9.960814 0.02443,20.720079 -0.293812,31.06479 -3.716266,28.611616 -7.586166,57.535089 -17.149176,84.85951 -5.24254,21.780535 -5.41783,45.980844 -19.90285,64.298704 -0.4781,1.37089 -1.96263,3.62855 1.07816,2.54595 z&#34;
+       style=&#34;fill:#b30000;fill-opacity:1;stroke-width:0.992523&#34;
+       id=&#34;path171&#34;
+       sodipodi:nodetypes=&#34;ccccccccccccccccccccccccccc&#34; /&gt;
+  &lt;/g&gt;
 &lt;/svg&gt;
 </pre></div></div>
 </div>
-<p>the <strong>drawSvg</strong> package is doing a trick here. SVG uses a second concept, the <strong>viewport</strong> to set up a world coordinate system that we will look through to see our actual image. In this example code, the <strong>viewport</strong> is being set up so we can think of our drawing coordinates in more normal (for humans) coordinates with <strong>y</strong> moving up. If you look at the coordinates used in the <strong>draw.Lines</strong> function pairs are pairs of values defining an <strong>x</strong>,<strong>y</strong> point. The first point starts the drawing,
-and lines are drawn between each next point and the previous point specified. That gives three sides for the example box. The final side is created by “closing” the polygon. The entire box is filled using a color code (yellow in this case) specified on the <strong>fill</strong> parameter.</p>
-<p>Here is the image we created:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<p>If you examine this <strong>inkscape</strong> file closly, you will see that it defines a drawing canvas in the <strong>svg</strong> tag, and has a <strong>path</strong> tag that defines the shape to be drawn and the color to use to fill that shape. The shape may be contained inside of a <strong>g</strong> tag which can provide transformation information in case the shape needs to be scaled, moved, or rotated for final display.</p>
+<p>The <strong>path</strong> tag contains the important data used to draw the shape. We will extract those data items and collect each one in a list of items to draw. There will be two kinds of items in this list: command letters, and coordinate pair values. Fortunately, <strong>inkscape</strong> uses spaces to separate these items making is easy for Python to break things up for processing.</p>
+<p>Jupyter Notebook makes it difficult to build code using a top-down approach, so we will build a few utility functons first, then work up to the final management code.</p>
+<p>We will need a function that takes an SVG filename and uses <strong>lxml</strong> to parse that file into a structure we can use to extract data. This structure is called a parse tree:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">d</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIgogICAgIHdpZHRoPSI4NTAiIGhlaWdodD0iMTEwMCIgdmlld0JveD0iMCAtMTEwMCA4NTAgMTEwMCI+CjxkZWZzPgo8L2RlZnM+CjxwYXRoIGQ9Ik0wLDAgTDEwMCwwIEwxMDAsLTEwMCBMMCwtMTAwIFoiIGZpbGw9IiNlZWVlMDAiIHN0cm9rZT0iYmxhY2siIC8+Cjwvc3ZnPg=="></div>
-</div>
-<p>The image is scaled to fit the screen, but represents a normal piece of paper. There is a lot of extra space shown, but this image is showing an entire piece of paper, scaled to fit the width of the screen. We can eliminate all the blank space for testing by lowering the size of the drawing area. Since one of the goals of this effort is to produce a circluar badge containing the logo, we will switch to a square drawing canvas for future tests.</p>
-<div class="section" id="Examining-the-test-svg-code">
-<h3>Examining the test svg code<a class="headerlink" href="#Examining-the-test-svg-code" title="Permalink to this headline">¶</a></h3>
-<p>SVG code is based on XML and looks a lot like HGTML as well. That means it is based on blocks of code enclosed between “tags”</p>
-<p>Tags in SVG are names surrounded by angle brackets. Each defined tag specifies some kind of graphics component. These components may actually produce visible drawing elements, but othere are more administrative in nature.</p>
-<p>Each tag appear in two forms: there is an “open” tag and a “close” tag. The difference is that the name of the tag begins with a slash on the “close tag. Between these two tags, other SVG code will be contained. It is important that tags”nest’ properly. You cannot start a tag inside of another tag pair and not close it before the outer closing tag.</p>
-<p>The open tag can contain a set of parameters, which are space separqted parameter. Each parameter has a name followed by an equal sign, then the parameter value in quotes. The available parameters depend on the tag being used.</p>
-<p>The most important tag is the <strong>svg</strong> tag, which surrounds all code needed to produce a single image. The parameters in that <strong>svg</strong> tag set up the canvas and coordinate systems we will use.</p>
-<p>There is an empty set of tags named <strong>def</strong> that are not being used in this example. Finally, the box is displayed by defining the <strong>path</strong> to be drawn. The commands that actually draw the box are coded inside the string assigned to the parameter <strong>d</strong>. The individual SVG commands are simple to understand. but there are sev3ral of them available.</p>
-<ol class="arabic simple">
-<li><p><strong>M</strong> - mve a pen from wherever it is now to the specified coordinate. The pen is “up”, meaning nothing is being drawn.</p></li>
-<li><p><strong>L</strong> - draw linw from the previous position to the indicated coordinate. In this case a straight line id drawn. The color of the lne and the size of the pen are controlled by the <strong>stroke</strong> and <strong>stroke-width</strong> parameters.</p></li>
-<li><p><strong>Z</strong> - this colses a polygon drawn as a series of stratght lines. The final line will run from the last point specified to the first point specified. This should create a closed area suitable for “filling” with some color.</p></li>
-</ol>
-</div>
-</div>
-<div class="section" id="Creating-a-US-Flag">
-<h2>Creating a US Flag<a class="headerlink" href="#Creating-a-US-Flag" title="Permalink to this headline">¶</a></h2>
-<p>The geometry of the US Flag is well defined. Basically, it is a simple rectangle with the width 1.9 times the height. We will place thirteen equal height stripes on this rectangle. If we start off with each stripe set to 100 high, then the flag dimensions are:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">stripe_height</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">flag_height</span> <span class="o">=</span> <span class="mi">13</span> <span class="o">*</span> <span class="n">stripe_height</span>
-<span class="n">flag_width</span> <span class="o">=</span> <span class="mf">1.9</span> <span class="o">*</span> <span class="n">flag_height</span>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">flag_width</span><span class="p">,</span> <span class="n">flag_height</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;_images&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tree</span>
+</pre></div>
+</div>
+</div>
+<p>We can check this function out by processing the same file:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">tree</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;haffa-letter-H.svg&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -556,12 +579,486 @@ and lines are drawn between each next point and the previous point specified. Th
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-2470.0 1300
+&lt;lxml.etree._ElementTree object at 0x1126f1550&gt;
 </pre></div></div>
 </div>
-<p>The basic flag rectangle can now be set up:</p>
+<p>The tree is a data structure, not something we can print this way!</p>
+<p>We will need to extract three basic pieces of data from each file: canvas size (width and height), path data, and fill color. One of the files also has a transform data item in the <strong>g</strong> tag, so we need to check for this as well. To simplify extracting these data items, this, we will build functions for each one:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">get_canvas_size</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">iter</span><span class="p">():</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;svg&#39;</span><span class="p">:</span> <span class="k">break</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">)</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span>
+
+<span class="n">w</span><span class="p">,</span><span class="n">h</span> <span class="o">=</span> <span class="n">get_canvas_size</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+233.30176 200
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">get_fill_color</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">iter</span><span class="p">():</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="k">break</span>
+    <span class="n">style</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;style&#39;</span><span class="p">)</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="n">style</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;fill:&#39;</span><span class="p">)</span>
+    <span class="n">style</span> <span class="o">=</span> <span class="n">style</span><span class="p">[</span><span class="n">f1</span><span class="o">+</span><span class="mi">5</span><span class="p">:]</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="n">style</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">f2</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">style</span><span class="p">[:</span><span class="n">f2</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">style</span>
+    <span class="k">return</span> <span class="n">color</span>
+
+<span class="n">color</span> <span class="o">=</span> <span class="n">get_fill_color</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+#b30000
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">get_path_data</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">iter</span><span class="p">():</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="k">break</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">get_path_data</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;m&#39;, &#39;-135.01024,132.70382&#39;, &#39;c&#39;, &#39;10.54609,3.28331&#39;, &#39;21.06694,-3.94871&#39;, &#39;24.20863,-14.05748&#39;, &#39;4.83401,-12.31659&#39;, &#39;4.18421,-25.82625&#39;, &#39;7.88479,-38.447441&#39;, &#39;4.573935,-21.167941&#39;, &#39;9.167168,-42.343603&#39;, &#39;14.707323,-63.284024&#39;, &#39;19.235095,-5.954538&#39;, &#39;39.279958,2.222467&#39;, &#39;58.889842,0.247879&#39;, &#39;18.340853,0.452088&#39;, &#39;36.9701078,-1.646062&#39;, &#39;55.092227,2.271167&#39;, &#39;0.790803,20.083306&#39;, &#39;-5.016041,39.717921&#39;, &#39;-8.910998,59.261021&#39;, &#39;-2.763164,11.181582&#39;, &#39;-4.782812,22.665968&#39;, &#39;-8.1356686,33.631268&#39;, &#39;-2.3256387,7.99989&#39;, &#39;-9.35474886,14.56234&#39;, &#39;-12.7824555,20.60349&#39;, &#39;9.4996704,3.40853&#39;, &#39;20.1369771,1.19488&#39;, &#39;29.9556781,-0.006&#39;, &#39;4.274571,-10.41031&#39;, &#39;2.242043,-25.10932&#39;, &#39;4.4021,-37.099568&#39;, &#39;0.325371,-13.547194&#39;, &#39;7.011616,-25.690748&#39;, &#39;8.520576,-38.895347&#39;, &#39;1.485797,-15.289763&#39;, &#39;4.23731,-30.443234&#39;, &#39;8.0051,-45.294194&#39;, &#39;1.084922,-13.9603685&#39;, &#39;4.103866,-27.680181&#39;, &#39;6.002906,-41.514128&#39;, &#39;2.50087,-10.587528&#39;, &#39;7.267076,-20.619131&#39;, &#39;14.015169,-29.145285&#39;, &#39;0.01284,-11.146878&#39;, &#39;-18.523894,-1.562864&#39;, &#39;-23.464886,3.334707&#39;, &#39;-7.88075,7.836575&#39;, &#39;-3.357508,8.803847&#39;, &#39;-7.31786,22.433612&#39;, &#39;C&#39;, &#39;33.537958,-24.622444&#39;, &#39;33.692745,-0.79858141&#39;, &#39;25.555547,2.3678998&#39;, &#39;6.5808517,1.8772569&#39;, &#39;-12.394418,0.0218051&#39;, &#39;-31.364679,0.5161385&#39;, &#39;c&#39;, &#39;-17.990282,-1.9676646&#39;, &#39;-36.150518,-1.24229362&#39;, &#39;-54.137347,-3.2591353&#39;, &#39;0.515947,-14.8566282&#39;, &#39;5.406472,-29.1459632&#39;, &#39;5.766658,-44.0271972&#39;, &#39;1.919969,-4.340467&#39;, &#39;13.249644,-18.475635&#39;, &#39;4.153312,-18.40317&#39;, &#39;-6.77894,6.101398&#39;, &#39;-18.69357,7.820132&#39;, &#39;-23.160506,15.10823&#39;, &#39;4.561691,9.960814&#39;, &#39;0.02443,20.720079&#39;, &#39;-0.293812,31.06479&#39;, &#39;-3.716266,28.611616&#39;, &#39;-7.586166,57.535089&#39;, &#39;-17.149176,84.85951&#39;, &#39;-5.24254,21.780535&#39;, &#39;-5.41783,45.980844&#39;, &#39;-19.90285,64.298704&#39;, &#39;-0.4781,1.37089&#39;, &#39;-1.96263,3.62855&#39;, &#39;1.07816,2.54595&#39;, &#39;z&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">get_translate_data</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+    <span class="n">xtranslate</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ytranslate</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">iter</span><span class="p">():</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="k">break</span>
+    <span class="k">if</span> <span class="n">tag</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">f1</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span>
+            <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">f1</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">xtranslate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">ytranslate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">xtranslate</span><span class="p">,</span> <span class="n">ytranslate</span>
+
+<span class="n">xt</span><span class="p">,</span><span class="n">yt</span> <span class="o">=</span> <span class="n">get_translate_data</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">xt</span><span class="p">,</span> <span class="n">yt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+136.94005 65.687287
+</pre></div></div>
+</div>
+<p>We now have the tools needed to extract the basic drawing data. We can create a clean SVG file using the data provided by our new functions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">clean_svg</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">xt</span><span class="p">,</span> <span class="n">yt</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;_images&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="n">svg</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;</span><span class="si">%s</span><span class="s2">&quot; height=&quot;</span><span class="si">%s</span><span class="s2">&quot;&gt;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+    <span class="n">svg</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">  &lt;g transform=&quot;translate(</span><span class="si">%.2f</span><span class="s2">,</span><span class="si">%.2f</span><span class="s2">)&quot;&gt;</span>
+<span class="s2">    &lt;path d=&quot;</span>
+<span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">xt</span><span class="p">,</span><span class="n">yt</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">svg</span> <span class="o">+=</span> <span class="n">item</span>
+        <span class="n">svg</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span>
+    <span class="n">svg</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &quot;</span>
+<span class="s2">      style=&quot;fill:</span><span class="si">%s</span><span class="s2">&quot;</span>
+<span class="s2">    /&gt;</span>
+<span class="s2">  &lt;/g&gt;</span>
+<span class="s2">&lt;/svg&gt;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">color</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fout</span><span class="p">:</span>
+        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">svg</span><span class="p">)</span>
+
+<span class="n">clean_svg</span><span class="p">(</span><span class="s1">&#39;clean-haffa-letter-H.svg&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">xt</span><span class="p">,</span> <span class="n">yt</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;clean-haffa-letter-H.svg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; width=&#34;233.30176&#34; height=&#34;200&#34;&gt;
+  &lt;g transform=&#34;translate(136.94,65.69)&#34;&gt;
+    &lt;path d=&#34;
+m -135.01024,132.70382 c 10.54609,3.28331 21.06694,-3.94871 24.20863,-14.05748 4.83401,-12.31659 4.18421,-25.82625 7.88479,-38.447441 4.573935,-21.167941 9.167168,-42.343603 14.707323,-63.284024 19.235095,-5.954538 39.279958,2.222467 58.889842,0.247879 18.340853,0.452088 36.9701078,-1.646062 55.092227,2.271167 0.790803,20.083306 -5.016041,39.717921 -8.910998,59.261021 -2.763164,11.181582 -4.782812,22.665968 -8.1356686,33.631268 -2.3256387,7.99989 -9.35474886,14.56234 -12.7824555,20.60349 9.4996704,3.40853 20.1369771,1.19488 29.9556781,-0.006 4.274571,-10.41031 2.242043,-25.10932 4.4021,-37.099568 0.325371,-13.547194 7.011616,-25.690748 8.520576,-38.895347 1.485797,-15.289763 4.23731,-30.443234 8.0051,-45.294194 1.084922,-13.9603685 4.103866,-27.680181 6.002906,-41.514128 2.50087,-10.587528 7.267076,-20.619131 14.015169,-29.145285 0.01284,-11.146878 -18.523894,-1.562864 -23.464886,3.334707 -7.88075,7.836575 -3.357508,8.803847 -7.31786,22.433612 C 33.537958,-24.622444 33.692745,-0.79858141 25.555547,2.3678998 6.5808517,1.8772569 -12.394418,0.0218051 -31.364679,0.5161385 c -17.990282,-1.9676646 -36.150518,-1.24229362 -54.137347,-3.2591353 0.515947,-14.8566282 5.406472,-29.1459632 5.766658,-44.0271972 1.919969,-4.340467 13.249644,-18.475635 4.153312,-18.40317 -6.77894,6.101398 -18.69357,7.820132 -23.160506,15.10823 4.561691,9.960814 0.02443,20.720079 -0.293812,31.06479 -3.716266,28.611616 -7.586166,57.535089 -17.149176,84.85951 -5.24254,21.780535 -5.41783,45.980844 -19.90285,64.298704 -0.4781,1.37089 -1.96263,3.62855 1.07816,2.54595 z
+    &#34;
+      style=&#34;fill:#b30000&#34;
+    /&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</pre></div></div>
+</div>
+<p>The coordinate data in this file has a precision that far exceeds anything we might actually need. We can clean that up by processing the data list. Here is a routine that does this.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">normalize_path_data</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">isalpha</span><span class="p">():</span>
+            <span class="n">norm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">fx</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">fy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">norm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">,</span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fx</span><span class="p">,</span><span class="n">fy</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">norm</span>
+
+<span class="n">norm</span> <span class="o">=</span> <span class="n">normalize_path_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;m&#39;, &#39;-135.01,132.70&#39;, &#39;c&#39;, &#39;10.55,3.28&#39;, &#39;21.07,-3.95&#39;, &#39;24.21,-14.06&#39;, &#39;4.83,-12.32&#39;, &#39;4.18,-25.83&#39;, &#39;7.88,-38.45&#39;, &#39;4.57,-21.17&#39;, &#39;9.17,-42.34&#39;, &#39;14.71,-63.28&#39;, &#39;19.24,-5.95&#39;, &#39;39.28,2.22&#39;, &#39;58.89,0.25&#39;, &#39;18.34,0.45&#39;, &#39;36.97,-1.65&#39;, &#39;55.09,2.27&#39;, &#39;0.79,20.08&#39;, &#39;-5.02,39.72&#39;, &#39;-8.91,59.26&#39;, &#39;-2.76,11.18&#39;, &#39;-4.78,22.67&#39;, &#39;-8.14,33.63&#39;, &#39;-2.33,8.00&#39;, &#39;-9.35,14.56&#39;, &#39;-12.78,20.60&#39;, &#39;9.50,3.41&#39;, &#39;20.14,1.19&#39;, &#39;29.96,-0.01&#39;, &#39;4.27,-10.41&#39;, &#39;2.24,-25.11&#39;, &#39;4.40,-37.10&#39;, &#39;0.33,-13.55&#39;, &#39;7.01,-25.69&#39;, &#39;8.52,-38.90&#39;, &#39;1.49,-15.29&#39;, &#39;4.24,-30.44&#39;, &#39;8.01,-45.29&#39;, &#39;1.08,-13.96&#39;, &#39;4.10,-27.68&#39;, &#39;6.00,-41.51&#39;, &#39;2.50,-10.59&#39;, &#39;7.27,-20.62&#39;, &#39;14.02,-29.15&#39;, &#39;0.01,-11.15&#39;, &#39;-18.52,-1.56&#39;, &#39;-23.46,3.33&#39;, &#39;-7.88,7.84&#39;, &#39;-3.36,8.80&#39;, &#39;-7.32,22.43&#39;, &#39;C&#39;, &#39;33.54,-24.62&#39;, &#39;33.69,-0.80&#39;, &#39;25.56,2.37&#39;, &#39;6.58,1.88&#39;, &#39;-12.39,0.02&#39;, &#39;-31.36,0.52&#39;, &#39;c&#39;, &#39;-17.99,-1.97&#39;, &#39;-36.15,-1.24&#39;, &#39;-54.14,-3.26&#39;, &#39;0.52,-14.86&#39;, &#39;5.41,-29.15&#39;, &#39;5.77,-44.03&#39;, &#39;1.92,-4.34&#39;, &#39;13.25,-18.48&#39;, &#39;4.15,-18.40&#39;, &#39;-6.78,6.10&#39;, &#39;-18.69,7.82&#39;, &#39;-23.16,15.11&#39;, &#39;4.56,9.96&#39;, &#39;0.02,20.72&#39;, &#39;-0.29,31.06&#39;, &#39;-3.72,28.61&#39;, &#39;-7.59,57.54&#39;, &#39;-17.15,84.86&#39;, &#39;-5.24,21.78&#39;, &#39;-5.42,45.98&#39;, &#39;-19.90,64.30&#39;, &#39;-0.48,1.37&#39;, &#39;-1.96,3.63&#39;, &#39;1.08,2.55&#39;, &#39;z&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">clean_svg</span><span class="p">(</span><span class="s1">&#39;clean-haffa-letter-H.svg&#39;</span><span class="p">,</span> <span class="n">norm</span><span class="p">,</span> <span class="n">xt</span><span class="p">,</span> <span class="n">yt</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;clean-haffa-letter-H.svg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; width=&#34;233.30176&#34; height=&#34;200&#34;&gt;
+  &lt;g transform=&#34;translate(136.94,65.69)&#34;&gt;
+    &lt;path d=&#34;
+m -135.01,132.70 c 10.55,3.28 21.07,-3.95 24.21,-14.06 4.83,-12.32 4.18,-25.83 7.88,-38.45 4.57,-21.17 9.17,-42.34 14.71,-63.28 19.24,-5.95 39.28,2.22 58.89,0.25 18.34,0.45 36.97,-1.65 55.09,2.27 0.79,20.08 -5.02,39.72 -8.91,59.26 -2.76,11.18 -4.78,22.67 -8.14,33.63 -2.33,8.00 -9.35,14.56 -12.78,20.60 9.50,3.41 20.14,1.19 29.96,-0.01 4.27,-10.41 2.24,-25.11 4.40,-37.10 0.33,-13.55 7.01,-25.69 8.52,-38.90 1.49,-15.29 4.24,-30.44 8.01,-45.29 1.08,-13.96 4.10,-27.68 6.00,-41.51 2.50,-10.59 7.27,-20.62 14.02,-29.15 0.01,-11.15 -18.52,-1.56 -23.46,3.33 -7.88,7.84 -3.36,8.80 -7.32,22.43 C 33.54,-24.62 33.69,-0.80 25.56,2.37 6.58,1.88 -12.39,0.02 -31.36,0.52 c -17.99,-1.97 -36.15,-1.24 -54.14,-3.26 0.52,-14.86 5.41,-29.15 5.77,-44.03 1.92,-4.34 13.25,-18.48 4.15,-18.40 -6.78,6.10 -18.69,7.82 -23.16,15.11 4.56,9.96 0.02,20.72 -0.29,31.06 -3.72,28.61 -7.59,57.54 -17.15,84.86 -5.24,21.78 -5.42,45.98 -19.90,64.30 -0.48,1.37 -1.96,3.63 1.08,2.55 z
+    &#34;
+      style=&#34;fill:#b30000&#34;
+    /&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</pre></div></div>
+</div>
+<p>This is a bit cleaner.</p>
+</div>
+<div class="section" id="Removing-Relative-Coordinates">
+<h2>Removing Relative Coordinates<a class="headerlink" href="#Removing-Relative-Coordinates" title="Permalink to this headline">¶</a></h2>
+<p>For reference purposes, we can inspect the <strong>path</strong> commands to see ewhat they actually will draw.most of these items are coordinate pairs. The items that are simple leters are SVG drawing commands. To understand them, we need to examine what each command does.</p>
+<p>SVG uses a basic dimensionless coordinate system. Normally, these dimensions refer to pixels on a screen, but we can make them dimensional with a little work. The <strong>x</strong> coordinate runs left to right. The <strong>y</strong> coordinate runs from top to bottom, which is a little odd for humans. The drawing commands move a virtual pen around in this space, and may define a line of simply move the pen frm place to place leaving no line. In out output we only see a few of the available SVG drawing commands. These
+commands may be upper case, or lower case. If they are upper case, the coordinates needed are absolute. If they are lower case, the provided coordinates are relative to the last point drawn. In our file, most commands are relative, so the coordinates shown are not the final values. We need to do some math to get the actual drawing coordinates. Here are the commands we see here:</p>
+<ol class="arabic simple">
+<li><p><strong>m</strong> - move the pen to the specified coordinate (since we start off at 0,0, the provide coordinates are actually absolute values</p></li>
+<li><p><strong>c</strong> - draw a bezier curve. The final coordinate and two control points are specified.</p></li>
+<li><p><strong>l</strong> draw a straight line from the last point specified to the next coordinate.</p></li>
+<li><p><strong>z</strong> - close the current path by drawing a straight line from the last point specified to the first point in the path. The resulting area can be filled. The fill color is specified by the <strong>style</strong> paramener.</p></li>
+</ol>
+<p>If a command is followed by more coordinate values than the command needs, the same command is implied. This continues until another literal command letter is seen.</p>
+<p>In the code that follows, we will process the path data and eliminate the relative commands. The resulting drawing commands will now include absolute dimensions, which might be easier to use when we combine these elements into the final logo SVG file.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">x</span> <span class="o">=</span> <span class="n">xt</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">yt</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">xmin</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">ymin</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">xmax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5000</span>
+<span class="n">ymax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5000</span>
+
+<span class="n">numitems</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span>
+<span class="n">command</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+<span class="k">def</span> <span class="nf">split_coord</span><span class="p">(</span><span class="n">cstr</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">xt</span><span class="p">,</span> <span class="n">yt</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">cstr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span>
+
+<span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">relative</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">xt</span><span class="p">,</span> <span class="n">yt</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">newpath</span>
+
+    <span class="n">dx</span><span class="p">,</span><span class="n">dy</span> <span class="o">=</span> <span class="n">split_coord</span><span class="p">(</span><span class="n">norm</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">relative</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">+=</span> <span class="n">dx</span>
+        <span class="n">y</span> <span class="o">+=</span> <span class="n">dy</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">dx</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">dy</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">y</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">xmax</span><span class="p">:</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="n">ymax</span><span class="p">:</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="n">newpath</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">])</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">curve</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">relative</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">newpath</span>
+    <span class="n">cx1</span><span class="p">,</span><span class="n">cy1</span> <span class="o">=</span> <span class="n">split_coord</span><span class="p">(</span><span class="n">norm</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">cx2</span><span class="p">,</span><span class="n">cy2</span> <span class="o">=</span> <span class="n">split_coord</span><span class="p">(</span><span class="n">norm</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">cx3</span><span class="p">,</span><span class="n">cy3</span> <span class="o">=</span> <span class="n">split_coord</span><span class="p">(</span><span class="n">norm</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">relative</span><span class="p">:</span>
+        <span class="n">cx1</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">cx1</span>
+        <span class="n">cy1</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">cy1</span>
+        <span class="n">cx2</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">cx2</span>
+        <span class="n">cy2</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">cy2</span>
+        <span class="n">x</span> <span class="o">+=</span> <span class="n">cx3</span>
+        <span class="n">y</span> <span class="o">+=</span> <span class="n">cy3</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">cx3</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">cy3</span>
+    <span class="n">cx1</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cx1</span>
+    <span class="n">cy1</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cy1</span>
+    <span class="n">cx2</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cx2</span>
+    <span class="n">cy2</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cy2</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">y</span>
+    <span class="n">newpath</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">cx1</span><span class="p">,</span><span class="n">cy1</span><span class="p">,</span><span class="n">cx2</span><span class="p">,</span><span class="n">cy2</span><span class="p">,</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">xmax</span><span class="p">:</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="n">ymax</span><span class="p">:</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="k">return</span> <span class="mi">3</span>
+
+<span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">relative</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">commands</span><span class="p">(</span><span class="n">argument</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="n">relative</span> <span class="o">=</span> <span class="n">argument</span><span class="o">.</span><span class="n">islower</span><span class="p">()</span>
+    <span class="n">switcher</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;m&#39;</span> <span class="p">:</span> <span class="n">move</span><span class="p">,</span>
+        <span class="s1">&#39;M&#39;</span> <span class="p">:</span> <span class="n">move</span><span class="p">,</span>
+        <span class="s1">&#39;c&#39;</span> <span class="p">:</span> <span class="n">curve</span><span class="p">,</span>
+        <span class="s1">&#39;C&#39;</span> <span class="p">:</span> <span class="n">curve</span><span class="p">,</span>
+        <span class="s1">&#39;l&#39;</span> <span class="p">:</span> <span class="n">move</span><span class="p">,</span>
+        <span class="s1">&#39;L&#39;</span> <span class="p">:</span> <span class="n">move</span><span class="p">,</span>
+        <span class="s1">&#39;z&#39;</span> <span class="p">:</span> <span class="n">close</span><span class="p">,</span>
+        <span class="s1">&#39;Z&#39;</span> <span class="p">:</span> <span class="n">close</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">func</span> <span class="o">=</span> <span class="n">switcher</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">argument</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="s2">&quot;Invalid command&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">relative</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">gen_svg</span><span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+    <span class="n">svg</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot;</span>
+<span class="s2">xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;</span>
+<span class="s2">width=&quot;</span><span class="si">%d</span><span class="s2">&quot; height=&quot;</span><span class="si">%d</span><span class="s2">&quot;&gt;</span>
+<span class="s2">&lt;path d=&quot;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">%</span> <span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+        <span class="n">svg</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">svg</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span>
+    <span class="n">svg</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &quot;</span>
+<span class="s2">    style=&quot;fill:</span><span class="si">%s</span><span class="s2">&quot;</span>
+<span class="s2">  /&gt;</span>
+<span class="s2">&lt;/svg&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">color</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">svg</span><span class="p">)</span>
+
+<span class="n">newpath</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numitems</span><span class="p">:</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="n">norm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">newpath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="n">commands</span><span class="p">(</span><span class="n">command</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">xmax</span><span class="p">:</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="n">ymax</span><span class="p">:</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">xmin</span><span class="p">:</span> <span class="n">xmin</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">ymin</span><span class="p">:</span> <span class="n">ymin</span> <span class="o">=</span> <span class="n">y</span>
+
+        <span class="n">done</span> <span class="o">=</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">numitems</span> <span class="ow">or</span>  <span class="n">norm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()</span>
+<span class="n">gen_svg</span><span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">newpath</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34;
+xmlns:xlink=&#34;http://www.w3.org/1999/xlink&#34;
+width=&#34;203&#34; height=&#34;198&#34;&gt;
+&lt;path d=&#34;
+M 1.93 198.39 C 12.48 201.67 23.00 194.44 26.14 184.33 30.97 172.01 30.32 158.50 34.02 145.88 38.59 124.71 43.19 103.54 48.73 82.60 67.97 76.65 88.01 84.82 107.62 82.85 125.96 83.30 144.59 81.20 162.71 85.12 163.50 105.20 157.69 124.84 153.80 144.38 151.04 155.56 149.02 167.05 145.66 178.01 143.33 186.01 136.31 192.57 132.88 198.61 142.38 202.02 153.02 199.80 162.84 198.60 167.11 188.19 165.08 173.49 167.24 161.50 167.57 147.95 174.25 135.81 175.76 122.60 177.25 107.31 180.00 92.16 183.77 77.31 184.85 63.35 187.87 49.63 189.77 35.80 192.27 25.21 197.04 15.18 203.79 6.65 203.80 -4.50 185.27 5.09 180.33 9.98 172.45 17.82 176.97 18.78 173.01 32.41 C 33.54 -24.62 33.69 -0.80 25.56 2.37 6.58 1.88 -12.39 0.02 -31.36 0.52 C -49.35 -1.45 -67.51 -0.72 -85.50 -2.74 -84.98 -17.60 -80.09 -31.89 -79.73 -46.77 -77.81 -51.11 -66.48 -65.25 -75.58 -65.17 -82.36 -59.07 -94.27 -57.35 -98.74 -50.06 -94.18 -40.10 -98.72 -29.34 -99.03 -19.00 -102.75 9.61 -106.62 38.54 -116.18 65.86 -121.42 87.64 -121.60 111.84 -136.08 130.16 -136.56 131.53 -138.04 133.79 -135.00 132.71 Z
+    &#34;
+    style=&#34;fill:#b30000&#34;
+  /&gt;
+&lt;/svg&gt;
+
+</pre></div></div>
+</div>
+<p>this code is not being used for the current project, but may be useful later.</p>
+<p>Now, we can build clean files for all of our component parts:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">files</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;haffa-letter-A.svg&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;haffa-letter-F.svg&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;haffa-letter-H.svg&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;haffa-pilot.svg&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;haffa-airplane.svg&#39;</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">w</span><span class="p">,</span><span class="n">h</span> <span class="o">=</span> <span class="n">get_canvas_size</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">get_fill_color</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+    <span class="n">xt</span><span class="p">,</span><span class="n">yt</span> <span class="o">=</span> <span class="n">get_translate_data</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get_path_data</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">normalize_path_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">cname</span> <span class="o">=</span> <span class="s1">&#39;clean-&#39;</span> <span class="o">+</span> <span class="n">fname</span>
+    <span class="n">clean_svg</span><span class="p">(</span><span class="n">cname</span><span class="p">,</span> <span class="n">norm</span><span class="p">,</span> <span class="n">xt</span><span class="p">,</span> <span class="n">yt</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+    <span class="n">show</span><span class="p">(</span><span class="n">cname</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; width=&#34;225&#34; height=&#34;200&#34;&gt;
+  &lt;g transform=&#34;translate(0.00,0.00)&#34;&gt;
+    &lt;path d=&#34;
+m 12.00,200.00 c 15.22,-1.96 18.85,-24.62 31.04,-33.24 17.72,-19.03 25.81,-35.79 41.73,-29.03 23.99,2.39 63.47,-2.64 87.53,0.18 17.48,0.35 15.27,-2.50 18.67,12.18 4.55,14.76 3.37,41.15 14.46,49.91 27.69,6.11 19.32,-18.74 10.62,-32.97 -12.19,-15.46 -7.82,-34.35 -17.79,-52.58 -6.65,-21.99 -13.07,-41.65 -17.81,-63.26 -3.26,-13.89 -4.24,-33.35 -11.89,-50.24 -20.09,5.07 -21.86,21.14 -35.01,32.89 -11.16,20.22 -31.38,41.06 -44.95,60.05 -10.53,20.95 -31.00,35.76 -44.60,55.25 -12.72,18.27 -28.51,33.50 -44.47,49.15 -1.45,3.48 9.48,1.09 12.47,1.71 z m 84.61,-73.38 c -24.45,5.77 -14.89,-10.96 -3.91,-21.01 13.22,-19.74 35.95,-47.59 51.08,-66.31 10.57,-18.41 17.03,-10.93 18.16,8.02 9.38,17.91 13.75,39.66 18.17,63.62 11.16,21.48 -19.04,13.43 -34.84,15.17 -16.10,2.76 -32.39,-0.04 -48.66,0.50 z
+    &#34;
+      style=&#34;fill:#b30000&#34;
+    /&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; width=&#34;180&#34; height=&#34;200&#34;&gt;
+  &lt;g transform=&#34;translate(0.00,0.00)&#34;&gt;
+    &lt;path d=&#34;
+m 28.90,195.37 c 5.21,-21.15 12.29,-64.35 17.86,-84.24 4.75,-19.30 7.99,-44.63 12.30,-54.30 27.38,2.06 43.84,-1.11 58.21,3.00 14.10,1.20 17.81,0.39 29.81,0.53 8.10,-5.36 5.11,-9.17 9.90,-13.80 -14.68,1.26 -4.89,0.54 -18.24,0.30 -41.10,-0.09 -63.76,-3.24 -78.08,-4.19 0.27,-8.92 1.94,-14.35 6.73,-27.81 18.01,-2.48 78.17,3.29 101.18,1.82 6.84,-8.81 2.86,-5.46 11.13,-14.83 -30.98,-0.20 -46.34,3.93 -70.55,2.18 C 98.00,5.17 69.74,-1.12 50.18,0.65 52.03,14.53 44.82,42.66 39.98,58.56 39.07,79.75 23.80,141.32 18.18,164.72 9.12,183.55 8.88,192.63 0.19,199.26 18.31,198.07 17.34,196.48 28.90,195.37 Z
+    &#34;
+      style=&#34;fill:#b30000&#34;
+    /&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; width=&#34;233.30176&#34; height=&#34;200&#34;&gt;
+  &lt;g transform=&#34;translate(136.94,65.69)&#34;&gt;
+    &lt;path d=&#34;
+m -135.01,132.70 c 10.55,3.28 21.07,-3.95 24.21,-14.06 4.83,-12.32 4.18,-25.83 7.88,-38.45 4.57,-21.17 9.17,-42.34 14.71,-63.28 19.24,-5.95 39.28,2.22 58.89,0.25 18.34,0.45 36.97,-1.65 55.09,2.27 0.79,20.08 -5.02,39.72 -8.91,59.26 -2.76,11.18 -4.78,22.67 -8.14,33.63 -2.33,8.00 -9.35,14.56 -12.78,20.60 9.50,3.41 20.14,1.19 29.96,-0.01 4.27,-10.41 2.24,-25.11 4.40,-37.10 0.33,-13.55 7.01,-25.69 8.52,-38.90 1.49,-15.29 4.24,-30.44 8.01,-45.29 1.08,-13.96 4.10,-27.68 6.00,-41.51 2.50,-10.59 7.27,-20.62 14.02,-29.15 0.01,-11.15 -18.52,-1.56 -23.46,3.33 -7.88,7.84 -3.36,8.80 -7.32,22.43 C 33.54,-24.62 33.69,-0.80 25.56,2.37 6.58,1.88 -12.39,0.02 -31.36,0.52 c -17.99,-1.97 -36.15,-1.24 -54.14,-3.26 0.52,-14.86 5.41,-29.15 5.77,-44.03 1.92,-4.34 13.25,-18.48 4.15,-18.40 -6.78,6.10 -18.69,7.82 -23.16,15.11 4.56,9.96 0.02,20.72 -0.29,31.06 -3.72,28.61 -7.59,57.54 -17.15,84.86 -5.24,21.78 -5.42,45.98 -19.90,64.30 -0.48,1.37 -1.96,3.63 1.08,2.55 z
+    &#34;
+      style=&#34;fill:#b30000&#34;
+    /&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; width=&#34;300&#34; height=&#34;300&#34;&gt;
+  &lt;g transform=&#34;translate(0.00,0.00)&#34;&gt;
+    &lt;path d=&#34;
+m 61.08,246.98 1.11,-29.71 c -13.71,6.30 -21.03,10.85 -19.33,22.06 0.81,8.76 -7.00,7.70 -8.32,0.47 -5.69,-8.79 -7.70,-15.34 3.75,-18.16 9.70,-4.86 18.19,-11.39 26.70,-18.02 6.37,-5.31 11.99,-10.47 15.83,-19.39 3.09,-16.40 4.48,-33.11 2.87,-49.74 l -2.16,-18.45 c -2.63,-8.55 -18.61,-4.62 -28.43,-5.06 -9.64,1.71 -19.30,3.72 -28.46,7.29 -8.34,-3.39 -22.02,15.15 -22.54,-0.65 1.93,-7.78 13.85,-5.58 20.37,-7.92 7.18,-0.87 14.09,-3.06 21.00,-4.78 9.39,-1.25 18.71,-3.08 28.14,-3.83 6.52,-1.75 6.92,-11.71 6.74,-18.96 C 77.57,77.22 78.05,71.88 74.15,68.10 67.13,64.95 57.85,52.82 66.61,45.95 c 7.81,-5.13 12.98,-2.03 20.80,1.13 -6.03,12.40 9.90,26.11 19.70,14.24 5.32,-9.38 9.02,-19.59 14.66,-28.81 4.44,-7.32 10.90,-18.46 19.36,-19.78 4.30,12.42 -13.78,16.35 -15.02,27.98 -4.50,11.46 -8.79,23.00 -16.12,33.06 -4.91,10.15 -2.02,21.92 -3.54,32.97 -0.17,20.91 1.25,42.61 -1.42,63.36 -2.64,12.37 -10.05,23.13 -19.93,30.88 -10.40,7.79 -13.41,16.65 -13.81,31.28 0.53,10.38 -1.62,20.31 -0.50,30.94 -0.49,7.82 11.57,3.90 11.63,9.39 2.12,6.00 -13.45,5.83 -22.44,2.43 z M 1.13,1.37 c 0.51,-4.04 2.81,3.92 0.00,0.00 z
+    &#34;
+      style=&#34;fill:#000000&#34;
+    /&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; width=&#34;290&#34; height=&#34;240&#34;&gt;
+  &lt;g transform=&#34;translate(0.00,0.00)&#34;&gt;
+    &lt;path d=&#34;
+m 85.00,230.00 c 1.82,-8.07 2.75,-11.10 4.28,-19.56 -13.24,-7.46 -49.14,-20.20 -43.66,-36.42 16.08,6.16 28.74,16.42 46.66,21.22 10.34,-35.97 28.84,-90.14 37.53,-121.74 -38.91,-16.40 -68.46,-26.26 -100.44,-40.17 -12.57,-8.46 -30.39,-19.93 -26.60,-29.01 11.12,4.34 21.52,9.25 32.72,17.12 35.38,8.33 68.27,25.07 100.42,33.37 3.97,-4.53 14.96,-26.74 14.26,-11.48 l -0.89,15.62 c 30.33,11.66 67.12,30.40 94.23,39.59 13.15,0.50 26.31,0.66 39.49,0.60 5.38,16.45 -32.26,11.59 -42.21,13.04 -38.22,-14.03 -62.04,-22.94 -98.74,-34.25 -16.97,41.21 -28.76,83.06 -41.96,119.97 14.03,6.28 25.58,12.29 40.91,17.81 1.81,13.47 -34.91,-1.27 -46.63,-4.30 -1.93,5.11 -4.53,11.30 -5.84,18.47 -2.37,0.61 -3.52,0.12 -3.52,0.12 z
+    &#34;
+      style=&#34;fill:#000000&#34;
+    /&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</pre></div></div>
+</div>
+<p>As a check, let’s display these files and make sure each one looks correct.</p>
+<div class="section" id="id1">
+<h3>Pilot:<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p><img alt="b7c01bb286aa4f29b53e95986ebd9d0a" src="_images/haffa-pilot.svg" /></p>
+</div>
+<div class="section" id="id2">
+<h3>Airplane:<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p><img alt="ee400e258e9045568e36289a18d44bbc" src="_images/haffa-airplane.svg" /></p>
+</div>
+<div class="section" id="id3">
+<h3>Letter H:<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p><img alt="8e131fe742874b4cb5fcfec3ea392fa7" src="_images/haffa-letter-H.svg" /></p>
+</div>
+<div class="section" id="id4">
+<h3>Letter A:<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p><img alt="d04cf25fce354cf5a4d8b2af604b1d2d" src="_images/haffa-letter-A.svg" /></p>
+</div>
+<div class="section" id="id5">
+<h3>Letter F:<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p><img alt="5702c2a620184ff2a9c3c7a242791980" src="_images/haffa-letter-F.svg" /></p>
+<p>These look fine. We still have two basic items to generate: the flag, and the heart shape that will mask that flag. Both of these elements will be set up in a separate notebook.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -580,11 +1077,21 @@ and lines are drawn between each next point and the previous point specified. Th
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/haffa-logo_17_0.svg" src="_images/haffa-logo_17_0.svg" /></div>
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-82-9fe58a6b9beb&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>flag <span class="ansi-blue-fg">=</span> draw<span class="ansi-blue-fg">.</span>Drawing<span class="ansi-blue-fg">(</span>flag_height<span class="ansi-blue-fg">,</span> flag_width<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-red-fg"># Draw an irregular polygon</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> flag.append(draw.Lines(0, 0,
+<span class="ansi-green-intense-fg ansi-bold">      5</span>                     flag_width<span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;draw&#39; is not defined
+</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
@@ -600,7 +1107,7 @@ and lines are drawn between each next point and the previous point specified. Th
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/haffa-logo_18_0.svg" src="_images/haffa-logo_18_0.svg" /></div>
+<img alt="_images/haffa-logo_30_0.svg" src="_images/haffa-logo_30_0.svg" /></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -609,6 +1116,7 @@ and lines are drawn between each next point and the previous point specified. Th
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -628,7 +1136,7 @@ and lines are drawn between each next point and the previous point specified. Th
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="zbibliography.html" title="Bibliography"
+          <a href="haffa-flag.html" title="Creating the U.S. Flag"
              >next</a> |</li>
         <li class="right" >
           <a href="logo/index.html" title="SVG Club Logo"

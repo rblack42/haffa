@@ -1,0 +1,15 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="2470" height="1300">
+  <g>
+  <rect width="2470" height="1300" 
+  style="fill:rgb(255,0,0)" /><line x1="0" y1="150" x2="2470" y2="150" 
+  style="stroke:rgb(255,255,255);stroke-width:100" /><line x1="0" y1="350" x2="2470" y2="350" 
+  style="stroke:rgb(255,255,255);stroke-width:100" /><line x1="0" y1="550" x2="2470" y2="550" 
+  style="stroke:rgb(255,255,255);stroke-width:100" /><line x1="0" y1="750" x2="2470" y2="750" 
+  style="stroke:rgb(255,255,255);stroke-width:100" /><line x1="0" y1="950" x2="2470" y2="950" 
+  style="stroke:rgb(255,255,255);stroke-width:100" /><line x1="0" y1="1150" x2="2470" y2="1150" 
+  style="stroke:rgb(255,255,255);stroke-width:100" /><line x1="0" y1="1350" x2="2470" y2="1350" 
+  style="stroke:rgb(255,255,255);stroke-width:100" />
+<rect width="988" height="700"
+style="fill:rgb(0,0,255)" />  </g>
+</svg>

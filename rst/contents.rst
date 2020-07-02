@@ -7,6 +7,7 @@ HAFFA documentation contents
 
     logo/index
     haffa-logo
+    haffa-flag
     zbibliography
 
 Indices and tables
