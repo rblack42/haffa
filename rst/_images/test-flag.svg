@@ -1,5 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="2470" height="1300">
-<g>
+<defs>
+  <clipPath id="heartclip">
+    <path
+      transform="
+        translate(988,1300)
+        rotate(225)
+      "
+      d="M 0,833 V 0 h 833 a 416,416 90 0 1 0,833 416,416 90 0 1 -833,0 z"
+      style="fill:none" stroke="red" stroke-width="5" />
+  </clipPath>
+</defs>
+<g clip-path="url(#heartclip)" >
   <rect width="2470" height="1300"
     style="fill:rgb(255,0,0);stroke-width:3;
     stroke:rgb(0,0,0)" />

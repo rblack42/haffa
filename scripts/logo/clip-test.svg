@@ -1,0 +1,32 @@
+<svg
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        height="325" width="352" >
+    <defs>
+        <g id="heart" >
+            <path
+                transform="
+                    translate(176,325)
+                    rotate(225)
+                "
+                d="M0 200 v-200 h200
+                a100,100 90 0,1 0,200
+                a100,100 90 0,1 -200,0
+                z"
+            />
+        </g>
+        <clipPath id="heartclip">
+            <use xlink:href="#heart" />
+        </clipPath>
+    </defs>
+    <rect
+        clip-path="url(#heartclip)"
+        x="5" y="5"
+        width="342" height="315"
+        style="fill:blue"
+    />
+    <use xlink:href="#heart"
+        fill="none" stroke="red" stroke-width="5"
+        transform="translate(5,5)"
+    />
+</svg>
