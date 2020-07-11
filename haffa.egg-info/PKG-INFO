@@ -1,0 +1,29 @@
+Metadata-Version: 2.1
+Name: haffa
+Version: 0.0.1
+Summary: SVG Badge generator
+Home-page: https://github.com/rblack42/haffa
+Author: Roie R. Black
+Author-email: roie.black@gmail.com
+License: BSD 3-Clause
+Download-URL: http://pypi.python.org/pypi/haffa-logo
+Description: Heart of America Free Flight Association
+        ########################################
+        :Author: Roie R. Black
+        :Date: June 18, 2020
+        :Email: roie.black@gmail.com
+        :Documentation: https://rblack42.github.io/haffa
+        
+        This repository hosts a number of software projects related to the club.
+        
+Platform: any
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Environment :: Console
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Documentation
+Classifier: Topic :: Utilities
+Description-Content-Type: text/x-rst

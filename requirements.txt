@@ -5,6 +5,7 @@ sphinxcontrib-tikz
 nbsphinx
 jupyter
 svgwrite
+click
 pytest
 pytest-cov
 tox
