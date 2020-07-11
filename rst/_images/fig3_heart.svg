@@ -1,0 +1,15 @@
+
+<svg xmlns="http://www.w3.org/2000/svg"
+width="800" height = "800"
+>
+<g transform="translate(100,100)">
+<path d="M 10,10 h 500 v 500 h -500 v -500 z"
+style="fill:none;stroke:black;stroke-width:3" />
+<path d="M 10,260 L 260, 10 510,260 260,510 10,260 z"
+style="fill:none;stroke:black;stroke-width:3" />
+<path d="M 10,260 A 176,176 0 0,1 260,10"
+style="fill:none;stroke:black;stroke-width:3" />
+<path d="M 260,10 A 176,176 0 0,1 510,260"
+style="fill:none;stroke:black;stroke-width:3" />
+</g>
+</svg>

@@ -6,8 +6,8 @@ HAFFA documentation contents
     :maxdepth: 2
 
     logo/index
-    haffa-logo
-    haffa-flag
+    logo/flag
+
     zbibliography
 
 Indices and tables

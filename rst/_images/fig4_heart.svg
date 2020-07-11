@@ -1,0 +1,9 @@
+
+<svg xmlns="http://www.w3.org/2000/svg"
+width="800" height = "800"
+>
+<g transform="translate(100,100)">
+<path d="M 260,510 L 10,260 A 176,176 0 0,1 260,10 176,176 0 0,1 510,260 Z"
+style="fill:none;stroke:black;stroke-width:3" />
+</g>
+</svg>

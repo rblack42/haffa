@@ -5,4 +5,6 @@ sphinxcontrib-tikz
 nbsphinx
 jupyter
 svgwrite
-svgpathtools
+pytest
+pytest-cov
+tox
